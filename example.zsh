@@ -1,18 +1,18 @@
 #! /usr/bin/env zsh
 
-PROG=$0
+PROG=`basename $0`
 
-USAGE='USAGE: $PROG [-q] [-v] [ch1 [ch2 ...]]
+USAGE="USAGE: $PROG [-q] [-v] [arg1 [arg2 ...]]
 
 Argument:
-    [foo]   file or folder (default: current directory)
+    [arg]   arg (default: .)
 
 Options:
-    [-h]    Show help and exit
-    [-q]    Quiet
-    [-v]    Verbose, otherwise output from mbsync is quiet
-    [ch1 [ch2 ...]] Channels
-'
+    [-h]    show help and exit
+    [-q]    quiet
+    [-v]    verbose
+    [arg1 [arg2 ...]] args
+"
 
 # Option defaults
 quiet=0
@@ -42,7 +42,9 @@ done
 # clear the options from the argument string
 shift $((OPTIND-1))
 
-# set the folders or files if given as arguments
+# get the arguments
 if [ $# -gt 0 ]; then
-    channels=$@
+    args=$@
 fi
+
+echo "Hello World! $args"

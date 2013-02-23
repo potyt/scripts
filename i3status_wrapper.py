@@ -15,7 +15,7 @@ def read_line():
         line = sys.stdin.readline().strip()
         # i3status sends EOF, or an empty line
         if not line:
-        sys.exit(3)
+            sys.exit(3)
         return line
     # exit on ctrl-c
     except KeyboardInterrupt:
@@ -35,8 +35,8 @@ if __name__ == '__main__':
             line, prefix = line[1:], ','
 
         j = json.loads(line)
-        # insert information into the start of the json, but could be anywhere
-        # CHANGE THIS LINE TO INSERT SOMETHING ELSE
-        j.insert(0, {'full_text' : '%s' % 'HELLO', 'name' : 'gov'})
-        # and echo back new encoded json
+
+        # add to json
+        j.insert(0, {'full_text' : '%s' % 'Hello World!', 'name' : 'message'})
+
         print_line(prefix+json.dumps(j))
