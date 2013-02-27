@@ -37,6 +37,6 @@ if __name__ == '__main__':
         j = json.loads(line)
 
         # add to json
-        j.insert(0, {'full_text' : '%s' % 'Hello World!', 'name' : 'message'})
+        # j.insert(0, {'full_text' : '%s' % 'Hello World!', 'name' : 'message'})
 
         print_line(prefix+json.dumps(j))
