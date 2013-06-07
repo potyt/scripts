@@ -1,6 +1,8 @@
 #! /usr/bin/env sh
 
-called=`basename $0`
-echo "$called"
-echo
-fortune -so
+script=`basename $0`
+fortune=$1
+
+base=${script%.*}
+fortune ~/fortune/$fortune
+printf "  // %s\n" `cat ~/.signature/$base`
