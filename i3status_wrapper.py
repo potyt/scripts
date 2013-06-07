@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
+import os
 import sys
 import json
+import subprocess
 
 def print_line(message):
     """ Non-buffered printing to stdout. """
@@ -36,7 +38,13 @@ if __name__ == '__main__':
 
         j = json.loads(line)
 
-        # add to json
-        # j.insert(0, {'full_text' : '%s' % 'Hello World!', 'name' : 'message'})
+        # add script modules
+        home = os.path.expanduser("~")
+        modules = os.path.join(home, ".config/i3status/modules")
+        for module in reversed(os.listdir(modules)):
+            path = os.path.join(modules, module)
+            process = subprocess.Popen([path], stdout=subprocess.PIPE)
+            out, err = process.communicate()
+            j.insert(0, {"full_text" : "%s " % out.decode("ascii").strip(), "name" : "message"})
 
         print_line(prefix+json.dumps(j))
