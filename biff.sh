@@ -13,4 +13,4 @@ for dir in ~/mail/*; do
         | sed -e "s/-/0/g" \
         | paste -sd+ \
         | bc
-done | grep -v 0 | paste -sd" "
+done | grep -v ": 0" | paste -sd" "
