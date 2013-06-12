@@ -1,0 +1,15 @@
+#! /usr/bin/env perl
+
+use warnings;
+
+# quote my_hdr commands for Mutt
+# mainly useful for X-Face headers
+
+@lines = <>;
+foreach (@lines) {
+        chomp;
+        s/([\\;'"`\$#])/\\$1/g;
+}
+
+print join '\n', @lines;
+print "\n";
