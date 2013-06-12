@@ -1,9 +1,9 @@
-#! /usr/bin/env perl -w
+#! /usr/bin/env perl
 
-# perl script to quote my_hdr commands for Mutt.
-# mainly useful for X-Face. headers.
-# (c) 2004 Christoph Berg, GNU GPL.
-# 2004-06-13 cb: initial version
+use warnings;
+
+# quote my_hdr commands for Mutt
+# mainly useful for X-Face headers
 
 @lines = <>;
 foreach (@lines) {
