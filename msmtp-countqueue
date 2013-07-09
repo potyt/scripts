@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+QUEUEDIR=$HOME/.msmtpqueue
+
+count=$(find $QUEUEDIR -name *.mail | wc -l)
+echo $count

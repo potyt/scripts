@@ -1,0 +1,89 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import imp
+import json
+import subprocess
+
+MODULE_DIR = ".config/i3status/modules"
+
+COLOR_OK = "#c0bed1"
+COLOR_DG = "#efef8f"
+COLOR_ER = "#ef5f5f"
+
+def print_line(message):
+    """ Non-buffered printing to stdout. """
+    sys.stdout.write(message + '\n')
+    sys.stdout.flush()
+
+def read_line():
+    """ Interrupted respecting reader for stdin. """
+    # try reading a line, removing any extra whitespace
+    try:
+        line = sys.stdin.readline().strip()
+        # i3status sends EOF, or an empty line
+        if not line:
+            sys.exit(3)
+        return line
+    # exit on ctrl-c
+    except KeyboardInterrupt:
+        sys.exit()
+
+def get_color(status):
+    if status == 0:
+        return COLOR_OK
+    elif status == 1:
+        return COLOR_DG
+    else:
+        return COLOR_ER
+
+def json_pad(j):
+    return [ {
+        k : ((" %s " % v) if k == "full_text" else v)
+        for k, v in d.items()
+    } for d in j ]
+
+if __name__ == '__main__':
+    # Skip the first line which contains the version header.
+    print_line(read_line())
+
+    # The second line contains the start of the infinite array.
+    print_line(read_line())
+
+    while True:
+        line, prefix = read_line(), ''
+        # ignore comma at start of lines
+        if line.startswith(','):
+            line, prefix = line[1:], ','
+
+        j = json.loads(line)
+
+        # add script modules
+        home = os.path.expanduser("~")
+        modules = os.path.join(home, MODULE_DIR)
+        sys.path.append(modules)
+        for script in reversed(sorted(os.listdir(modules))):
+            entry = {"name" : script}
+            try:
+                if script.endswith(".py"):
+                    module = script[:-3]
+                    mod = __import__(module, globals(), locals(), [], 0)
+                    imp.reload(mod)
+                    status, text = mod.run()
+                    color = get_color(status)
+                elif not os.path.isdir(os.path.join(modules, script)):
+                    path = os.path.join(modules, script)
+                    process = subprocess.Popen([path], stdout=subprocess.PIPE)
+                    out, err = process.communicate()
+                    text = out.decode("ascii").strip()
+                    color = COLOR_OK
+                else:
+                    continue
+            except Exception as e:
+                text = str(e)
+                color = COLOR_ER
+            entry.update({"full_text" : text, "color" : color})
+            j.insert(0, entry)
+
+        print_line(prefix + json.dumps(json_pad(j)))

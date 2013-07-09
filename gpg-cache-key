@@ -1,0 +1,21 @@
+#! /usr/bin/env sh
+
+# in case gpg-agent has been restarted
+. ~/.env.gpg
+
+key=$1
+if [ -z "$key" ]; then
+    key=$GPGKEY
+fi
+testfile="$TMPDIR/$$-gpgtest-$key"
+
+en_cmd="gpg --quiet --batch --no-tty --yes -u $key --no-encrypt-to --encrypt $testfile"
+de_cmd="gpg --quiet --batch --no-tty --yes -u $key --decrypt $testfile.gpg"
+
+touch $testfile
+$($en_cmd)
+[[ -z $BATCH ]] && $($de_cmd >/dev/null 2>&1) || $($de_cmd)
+success=$?
+
+rm -f "$testfile" "$testfile.gpg"
+exit $success

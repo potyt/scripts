@@ -1,0 +1,9 @@
+#! /usr/bin/env sh
+
+HEADER="/* Format_version=1, Width=48, Height=48, Depth=1, Valid_bits_per_item=16 */"
+
+cat "$@" \
+| sed -n -e '/^X-Face:/,/^[^ \t]/ p' \
+| sed -n -e 's/^X-Face://' -e '/^[ \t]/ p' \
+| sed -e 's/^[ \t]\+//' \
+| { echo "$HEADER"; uncompface; } | icontopbm | pbmtoascii

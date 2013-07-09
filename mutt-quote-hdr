@@ -1,0 +1,5 @@
+#! /usr/bin/env sh
+
+# escape \;'"`$#, join, terminate
+sed -e "s/\([\\;'\"\$#\`]\)/\\\\\1/g" | sed -e 's/ //g' | tr -d '\n'
+echo

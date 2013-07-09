@@ -1,6 +1,6 @@
-#! /bin/sh
+#! /usr/bin/env sh
 
-for dir in ~/mail/*; do
+mail=$(for dir in ~/mail/*; do
     biff="$dir/biff.txt"
     if [ -r "$biff" -a -f "$biff" ]; then
         biffname=`cat $biff`
@@ -8,9 +8,10 @@ for dir in ~/mail/*; do
         biffname=`basename $dir`
     fi
     printf " $biffname: "
-    chk4mail -c -d "$dir" -e "Trash" -l \
+    chk4mail -c -d "$dir" -e "Trash" -e "Junk Mail" -l \
         | sed -e "s/^.* \([-0-9]\+\) \+new.*$/\1/g" \
         | sed -e "s/-/0/g" \
         | paste -sd+ \
         | bc
-done | grep -v ": 0" | paste -sd" "
+done | grep -v ": 0" | paste -sd" ")
+[ -z "$mail" ] || echo $mail

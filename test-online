@@ -1,9 +1,9 @@
 #! /usr/bin/env sh
 
-function check_online()
+function check_online
 {
-    netcat -z -w 5 8.8.8.8 53 && echo 0 || echo 1
+    netcat -z -w 5 8.8.8.8 53 >/dev/null 2>&1 && echo 0 || echo 1
 }
 
-ONLINE=$(check_online)
-exit $ONLINE
+online=$(check_online)
+exit $online

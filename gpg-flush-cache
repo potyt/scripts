@@ -1,0 +1,5 @@
+#! /usr/bin/env sh
+
+if [[ ! -z $GPG_AGENT_PID ]]; then
+    kill -HUP $GPG_AGENT_PID
+fi

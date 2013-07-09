@@ -1,0 +1,7 @@
+#! /usr/bin/env sh
+
+cd
+
+for i in dotfiles/*; do
+    echo ln -s $i .`basename $i`
+done

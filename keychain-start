@@ -1,0 +1,5 @@
+#! /usr/bin/env sh
+
+# start ssh-agent if needed
+keychain --agents ssh --quiet --clear
+eval "$(keychain --eval --agents ssh -Q --quiet --timeout $SSH_AGENT_TIMEOUT id_rsa)"
