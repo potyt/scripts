@@ -1,0 +1,4 @@
+#! /usr/bin/env sh
+
+who | grep $USER >/dev/null 2>&1
+exit $?
