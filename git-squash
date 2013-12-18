@@ -9,5 +9,5 @@ git reset --soft $SHA_0
 git commit --amend
 git tag SQUASH_TMP
 git checkout $BRANCH
-git rebase --onto tmp $SHA_N
-git tag -d $BRANCH
+git rebase --onto SQUASH_TMP $SHA_N
+git tag -d SQUASH_TMP
