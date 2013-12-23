@@ -1,0 +1,4 @@
+#! /usr/bin/env sh
+
+test -n "$DISPLAY"
+exit $?

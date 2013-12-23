@@ -1,0 +1,12 @@
+#! /usr/bin/env sh
+
+INT=LVDS
+EXT=DisplayPort-0
+
+if [ `xrandr --q12 | grep -c ' connected '` -eq 2 ]; then
+    if [ `xrandr --q12 | grep $EXT | grep -c ' connected '` -eq 1 ]; then
+        xrandr --output $INT --auto --primary --output $EXT --auto --right-of $INT
+    fi
+else
+    xrandr --output $INT --auto --primary --output $EXT --off
+fi
