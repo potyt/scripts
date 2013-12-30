@@ -1,0 +1,13 @@
+#! /usr/bin/env sh
+
+dir=$1
+
+result="$(chk4mail -c -l -d $dir -e 'Trash' -e 'Junk Mail' -e 'Drafts' \
+    | sed -e 's/^.* \([-0-9]\+\) \+new.*$/\1/g' \
+    | sed -e 's/-/0/g' \
+    | paste -sd+ \
+    | bc)"
+if [ -z "$result" ]; then
+    result="0"
+fi
+echo $result

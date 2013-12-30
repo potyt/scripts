@@ -1,9 +1,5 @@
 #! /usr/bin/env sh
 
 for dir in ~/mail/*; do
-    chk4mail -c -d "$dir" -e "Trash" -e "Junk Mail" -l \
-        | sed -e "s/^.* \([-0-9]\+\) \+new.*$/\1/g" \
-        | sed -e "s/-/0/g" \
-        | paste -sd+ \
-        | bc
+    maildir-count "$dir"
 done | paste -sd+ | bc

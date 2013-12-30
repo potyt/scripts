@@ -8,10 +8,6 @@ mail=$(for dir in ~/mail/*; do
         biffname=`basename $dir`
     fi
     printf " $biffname: "
-    chk4mail -c -d "$dir" -e "Trash" -e "Junk Mail" -l \
-        | sed -e "s/^.* \([-0-9]\+\) \+new.*$/\1/g" \
-        | sed -e "s/-/0/g" \
-        | paste -sd+ \
-        | bc
+    maildir-count "$dir"
 done | grep -v ": 0" | paste -sd" ")
 [ -z "$mail" ] || echo $mail
