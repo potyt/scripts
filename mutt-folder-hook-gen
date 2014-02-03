@@ -1,0 +1,8 @@
+#! /usr/bin/env sh
+
+dir=$1
+
+for f in $dir/*; do
+    account=`basename $f`
+    echo folder-hook $account source \$my_private_conf/account/$account
+done
