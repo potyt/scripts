@@ -3,6 +3,7 @@
 dir=$1
 
 for f in $dir/*; do
-    account=`basename $f`
-    echo folder-hook $account source \$my_private_conf/account/$account
+    a=`basename $f`
+    [[ $a == "default" ]] || 
+    echo folder-hook $a source \$my_private_conf/account/$a
 done
