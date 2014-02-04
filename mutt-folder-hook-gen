@@ -4,6 +4,5 @@ dir=$1
 
 for f in $dir/*; do
     a=`basename $f`
-    [[ $a == "default" ]] || 
-    echo folder-hook $a source \$my_private_conf/account/$a
+    [ -h "$a" ] || echo folder-hook $a set my_account = \"$a\"
 done
