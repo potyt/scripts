@@ -1,0 +1,8 @@
+#! /usr/bin/env sh
+
+tag=$1
+value=$2
+file=$3
+
+echo metaflac --remove-tag=\'$tag\' \'$file\'
+echo metaflac --set-tag=\'$tag=$value\' \'$file\'
