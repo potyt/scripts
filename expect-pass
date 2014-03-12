@@ -1,8 +1,10 @@
-#! /usr/bin/env expect
+#!/usr/bin/expect -f
 
 set timeout 1
 set exec [lindex $argv 0]
-set pass [lindex $argv 1]
+set name [lindex $argv 1]
+
+set pass [exec pass $name 2>/dev/null | head -n1]
 
 spawn $exec
 
