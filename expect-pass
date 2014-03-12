@@ -1,0 +1,16 @@
+#! /usr/bin/env expect
+
+set timeout 1
+set exec [lindex $argv 0]
+set pass [lindex $argv 1]
+
+spawn $exec
+
+expect {
+    timeout { send_user "\nFailed to get password prompt\n"; exit 1 }
+    eof { send_user "\nFailure for $exec\n"; exit 1 }
+    "*assword"
+}
+
+send "$pass\r"
+interact
