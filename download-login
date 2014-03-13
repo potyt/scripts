@@ -1,0 +1,10 @@
+#! /usr/bin/env sh
+
+url=$1
+acc=$2
+out=$3
+
+user=`pass-username $acc || pass-email $acc`
+pass=`pass-password $acc`
+
+curl -u $user:$pass $url -o $out
