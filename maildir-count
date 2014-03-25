@@ -2,7 +2,7 @@
 
 dir=$1
 
-result="$(chk4mail -c -l -d $dir -e 'Trash' -e 'Junk Mail' -e 'Drafts' \
+result="$(chk4mail -c -l -j -d $dir -e 'Trash' -e 'Junk Mail' -e 'Drafts' \
     | sed -e 's/^.* \([-0-9]\+\) \+new.*$/\1/g' \
     | sed -e 's/-/0/g' \
     | paste -sd+ \
