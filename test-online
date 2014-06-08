@@ -2,7 +2,7 @@
 
 function check_online
 {
-    netcat -z -w 5 8.8.8.8 53 >/dev/null 2>&1 && echo 0 || echo 1
+    ping -c 1 8.8.8.8 >/dev/null 2>&1 && echo 0 || echo 1
 }
 
 online=$(check_online)
