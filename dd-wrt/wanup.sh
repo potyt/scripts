@@ -2,7 +2,8 @@
 
 PATH=/jffs/scripts:$PATH
 
+firewall-wan-open.sh
+ntp-sync.sh
 firewall-wan-block.sh
 firewall-loopback.sh
-stopvpn.sh
-startvpn.sh
+firewall-capture-dns.sh

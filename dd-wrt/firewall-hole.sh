@@ -1,6 +1,6 @@
 #!/bin/sh
 
-WanIface=`nvram get wan_iface`
+WanIface=$(get_wanface)
 
 d=$1; a=$2
 

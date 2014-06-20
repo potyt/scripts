@@ -1,28 +1,32 @@
 #!/bin/sh
 
 routes=""
+domains=""
 default=false
-while getopts ":r:d" opt; do
+while getopts ":r:d:z" opt; do
     case $opt in
         r)
             routes=$OPTARG
             ;;
         d)
+            domains=$OPTARG
+            ;;
+        z)
             default=true
             ;;
     esac
 done
 
-idx=`echo ${dev//[a-zA-Z]/}`
+idx=$(echo ${dev//[a-zA-Z]/})
 tbl=$((10+$idx))
 
 IspGateway=$(ip route list table main | awk '/default/ { print $3}')
-LanIp=`nvram get lan_ipaddr`
+LanIp=$(nvram get lan_ipaddr)
 LanNetwork="${LanIp%?}0"
-LanIface=`nvram get lan_ifname`
+LanIface=$(nvram get lan_ifname)
 
-iptables -D POSTROUTING -t nat -o $dev -j SNAT --to-source $ifconfig_local
-iptables -D POSTROUTING -t nat -o $dev -j MASQUERADE
+iptables -t nat -D POSTROUTING -o $dev -j SNAT --to-source $ifconfig_local
+iptables -t nat -D POSTROUTING -o $dev -j MASQUERADE
 iptables -D INPUT -i $dev -j ACCEPT
 iptables -D FORWARD -i $dev -o $LanIface -j ACCEPT
 iptables -D FORWARD -i $LanIface -o $dev -j ACCEPT
@@ -39,21 +43,26 @@ ip route delete 127.0.0.0/8 dev lo table $tbl
 ip route delete $LanNetwork/24 dev $LanIface table $tbl
 ip route delete $route_network_1 dev $dev src $ifconfig_local table $tbl
 
-ip rule add from $ifconfig_local table $tbl
-ip rule add fwmark $tbl table $tbl
+dns=$(echo $foreign_option_1 | grep "dhcp-option DNS" | cut -d' ' -f3)
+rm /var/tmp/dns-$idx
 
 if [[ -r $routes ]]; then
     grep -v '^#' $routes | grep -v '^[[:space:]]*$' | while read -r line ; do
-        iptables -D PREROUTING -t mangle -d $line -j MARK --set-mark $tbl
+        iptables -t mangle -D PREROUTING -d $line -j MARK --set-mark $tbl
+        iptables -t mangle -D OUTPUT -d $line -j MARK --set-mark $tbl
     done
 fi
 
-if $default; then
-    #iptables -D PREROUTING -t mangle -s $LanNetwork/24 -j MARK --set-mark $tbl
+rm -f /var/tmp/dnsmasq.server-$idx.conf
 
+if $default; then
     echo "Tearing down default routes"
-    echo ip route delete 0.0.0.0/1 via $ifconfig_remote
-    echo ip route delete 128.0.0.0/1 via $ifconfig_remote
+    ip route delete 0.0.0.0/1 via $ifconfig_remote
+    ip route delete 128.0.0.0/1 via $ifconfig_remote
 fi
 
 ip route flush cache
+
+pidfile=/var/tmp/openvpn-$idx.pid
+
+rm -f $pidfile
