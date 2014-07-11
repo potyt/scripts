@@ -1,0 +1,5 @@
+#! /usr/bin/env sh
+
+if=$1
+of=${if/%.ab/.tar}
+dd if=$if bs=24 skip=1 | openssl zlib -d > $of
