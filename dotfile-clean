@@ -1,0 +1,43 @@
+#! /usr/bin/env sh
+
+white=( $(cat ~/.config/dotfiles.white) )
+black=( $(cat ~/.config/dotfiles.black) )
+
+function canonpath() 
+{ 
+    echo $(cd $(dirname $1); pwd -P)/$(basename $1)
+}
+
+function white() 
+{ 
+    for i in ${white[@]}; do
+        if [[ $i == $1 ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+function black() 
+{ 
+    for i in ${black[@]}; do
+        if [[ $i == $1 ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+for f in ~/.*; do
+    if [ ! -L $f ]; then
+        name=$(basename $f)
+        if ! white $name; then
+            if black $name; then
+                rm -rf $f
+                echo deleted $f
+            else
+                echo "unknown: $f"
+            fi
+        fi
+    fi
+done
