@@ -2,9 +2,10 @@
 
 prg=`basename $0`
 acc=$1
+fld=$2
 
-fld=${prg#pass-}
+[[ -z $fld ]] && fld=${prg#pass-}
 
-val=`pass $acc | egrep -i ^$fld: | sed "s/^$fld:\(.*\)/\1/gI" | xargs`
+val=`pass $acc | egrep -i "^$fld:" | sed "s/^$fld:\(.*\)/\1/gI" | xargs`
 echo -n $val
 [[ -z "$val" ]] && exit 1 || exit 0
