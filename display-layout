@@ -1,4 +1,4 @@
-#! /usr/bin/env sh
+#! /usr/bin/env bash
 
 INT=LVDS
 EXT=DisplayPort-0

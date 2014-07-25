@@ -1,4 +1,4 @@
-#! /usr/bin/env sh
+#! /usr/bin/env bash
 
 white=( $(cat ~/.config/dotfiles.white) )
 black=( $(cat ~/.config/dotfiles.black) )

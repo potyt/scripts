@@ -1,4 +1,4 @@
-#! /usr/bin/env sh
+#! /usr/bin/env bash
 
 HEADER="/* Format_version=1, Width=48, Height=48, Depth=1, Valid_bits_per_item=16 */"
 

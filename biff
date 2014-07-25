@@ -1,4 +1,4 @@
-#! /usr/bin/env sh
+#! /usr/bin/env bash
 
 mail=$(for dir in ~/mail/*; do
     biff="$dir/biff.txt"

@@ -1,4 +1,4 @@
-#! /usr/bin/env sh
+#! /usr/bin/env bash
 
 # in case gpg-agent has been restarted
 . ~/.env.gpg

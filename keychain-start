@@ -1,4 +1,4 @@
-#! /usr/bin/env sh
+#! /usr/bin/env bash
 
 # start ssh-agent if needed
 keychain --agents ssh --quiet --clear
