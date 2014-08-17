@@ -1,0 +1,22 @@
+#! /usr/bin/env bash
+
+dirs=( $(cat ~/.config/git.dirs) )
+
+for r in ${dirs[@]}; do
+    for d in $r; do
+        if [[ -d $d ]]; then
+            need_pull=$( cd $d; [[ $(git rev-parse HEAD) == $(git rev-parse @{u}) ]] && echo false || echo true )
+            if $need_pull; then
+                echo push/pull required: $d
+            fi
+            uncommitted=$( cd $d; git diff --quiet && echo false || echo true )
+            if $uncommitted; then
+                echo commit required: $d
+            fi
+            untracked=$( cd $d; [[ -z $(git ls-files --others --exclude-standard) ]] && echo false || echo true )
+            if $untracked; then
+                echo untracked files: $d
+            fi
+        fi
+    done
+done
