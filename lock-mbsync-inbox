@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+lockrun -qn ~/var/lock/mbsync.lock mbsync Inbox
+
+exit 0
