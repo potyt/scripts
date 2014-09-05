@@ -1,0 +1,4 @@
+#! /usr/bin/env sh
+
+gpg-flush-key
+keychain --clear
