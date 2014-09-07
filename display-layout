@@ -11,7 +11,7 @@ while read out mode pos; do
             ([[ $pos =~ ^B: ]] && echo "--below ${pos:2}") ||
             echo "--pos $pos"
         )
-        echo xrandr --output $out $c_m $c_p
+        xrandr --output $out $c_m $c_p
     else
         xrandr --output $out --off
     fi
