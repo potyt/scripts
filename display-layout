@@ -1,12 +1,18 @@
 #! /usr/bin/env bash
 
-INT=LVDS
-EXT=DisplayPort-0
-
-if [ `xrandr --q12 | grep -c ' connected '` -eq 2 ]; then
-    if [ `xrandr --q12 | grep $EXT | grep -c ' connected '` -eq 1 ]; then
-        xrandr --output $INT --auto --primary --output $EXT --auto --right-of $INT
+while read out mode pos; do
+    connected=$(xrandr | grep $out | grep -q ' connected' && echo true || echo false)
+    if $connected; then
+        c_m=$([[ $mode == "auto" ]] && echo "--auto" || echo "--mode $mode")
+        c_p=$(
+            ([[ $pos =~ ^R: ]] && echo "--right-of ${pos:2}") ||
+            ([[ $pos =~ ^L: ]] && echo "--left-of ${pos:2}") ||
+            ([[ $pos =~ ^A: ]] && echo "--above ${pos:2}") ||
+            ([[ $pos =~ ^B: ]] && echo "--below ${pos:2}") ||
+            echo "--pos $pos"
+        )
+        echo xrandr --output $out $c_m $c_p
+    else
+        xrandr --output $out --off
     fi
-else
-    xrandr --output $INT --auto --primary --output $EXT --off
-fi
+done < $XDG_CONFIG_HOME/display.$HOSTNAME
