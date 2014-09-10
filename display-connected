@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+
+xrandr | grep $1 | grep -q ' connected'
