@@ -1,17 +1,19 @@
 #! /usr/bin/env bash
 
-while read out mode pos; do
+while read out mode pos primary; do
     connected=$(xrandr | grep $out | grep -q ' connected' && echo true || echo false)
     if $connected; then
         c_m=$([[ $mode == "auto" ]] && echo "--auto" || echo "--mode $mode")
-        c_p=$(
+        c_l=$(
             ([[ $pos =~ ^R: ]] && echo "--right-of ${pos:2}") ||
             ([[ $pos =~ ^L: ]] && echo "--left-of ${pos:2}") ||
             ([[ $pos =~ ^A: ]] && echo "--above ${pos:2}") ||
             ([[ $pos =~ ^B: ]] && echo "--below ${pos:2}") ||
+            ([[ $pos = "0+0" ]] && echo "") ||
             echo "--pos $pos"
         )
-        xrandr --output $out $c_m $c_p
+        c_p=$([[ $primary == "primary" ]] && echo "--primary" || echo "")
+        xrandr --output $out $c_p $c_m $c_l
     else
         xrandr --output $out --off
     fi
