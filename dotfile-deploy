@@ -1,11 +1,6 @@
 #! /usr/bin/env bash
 
 cd
-
-for i in dotfiles/*; do
-    echo ln -s $i .`basename $i`
-done
-
-for i in dotfiles-private/*; do
+for i in dotfiles/dotfiles-common/*; do
     echo ln -s $i .`basename $i`
 done
