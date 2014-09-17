@@ -3,7 +3,8 @@
 dirs=( $(cat ~/.config/git.dirs) )
 
 for r in ${dirs[@]}; do
-    for d in $r; do
+    exp=$(eval echo $r)
+    for d in $exp; do
         if [[ -d $d ]]; then
             need_pull=$( cd $d; [[ $(git rev-parse HEAD) == $(git rev-parse @{u}) ]] && echo false || echo true )
             if $need_pull; then
