@@ -2,7 +2,7 @@
 
 function check_vpn
 {
-    ip route get 8.8.8.8 | grep -q "dev tun" && echo 0 || echo 1
+    ip route get $DEFAULT_PING_IP | grep -q "dev tun" && echo 0 || echo 1
 }
 
 online=$(check_vpn)
