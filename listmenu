@@ -1,0 +1,32 @@
+#! /usr/bin/env sh
+
+FILE=$1
+shift
+DMENU=$*
+
+HEIGHT=$(cat $FILE | wc -l)
+PROMPT="Tasks"
+
+TMPFILE=$TMPDIR/listmenu.$$.tmp
+
+function action
+{
+    echo "cat $FILE | $DMENU -l '$HEIGHT' -p '$PROMPT'"
+}
+
+echo $(action)
+touch $FILE
+CMD=$(eval $(action))
+while [ -n "$CMD" ]; do
+    grep -q "^$CMD" $FILE
+    if [ $? = 0 ]; then
+        grep -v "^$CMD" $FILE > $TMPFILE
+        mv $TMPFILE $FILE
+        HEIGHT=$(($HEIGHT-1))
+    else
+        echo "$CMD" >> $FILE
+        HEIGHT=$(($HEIGHT+1))
+    fi
+    CMD=$(eval $(action))
+done
+exit 0
