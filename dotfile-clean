@@ -11,7 +11,7 @@ function canonpath()
 function white() 
 { 
     for i in ${white[@]}; do
-        if [[ $i == $1 ]]; then
+        if [[ $1 =~ $i ]]; then
             return 0
         fi
     done
@@ -21,7 +21,7 @@ function white()
 function black() 
 { 
     for i in ${black[@]}; do
-        if [[ $i == $1 ]]; then
+        if [[ $1 =~ $i ]]; then
             return 0
         fi
     done
