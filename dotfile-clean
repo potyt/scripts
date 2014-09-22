@@ -11,7 +11,7 @@ function canonpath()
 function white() 
 { 
     for i in ${white[@]}; do
-        if [[ $1 =~ $i ]]; then
+        if [[ $1 == $i ]]; then
             return 0
         fi
     done
@@ -21,7 +21,7 @@ function white()
 function black() 
 { 
     for i in ${black[@]}; do
-        if [[ $1 =~ $i ]]; then
+        if [[ $1 == $i ]]; then
             return 0
         fi
     done
@@ -29,14 +29,16 @@ function black()
 }
 
 for f in ~/.*; do
-    if [ ! -L $f ]; then
+    if [[ ! -L $f ]]; then
         name=$(basename $f)
-        if ! white $name; then
-            if black $name; then
-                rm -rf $f
-                echo deleted $f
-            else
-                echo "unknown: $f"
+        if [[ $name != . && $name != .. ]]; then
+            if ! white $name; then
+                if black $name; then
+                    rm -rf $f
+                    echo deleted $f
+                else
+                    echo "unknown: $f"
+                fi
             fi
         fi
     fi
