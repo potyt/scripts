@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+
+# in case keychain has been restarted
+. ~/.env.keychain
+
+for pk in ~/.ssh/id_rsa*.pub; do
+    k=${pk%.pub}
+    id=$(basename $k)
+    id=${id#id_rsa-}
+    pass ssh/$id | head -n 1 | tty-pipe 1 "^.+: *$" ssh-add $k
+done
