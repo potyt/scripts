@@ -2,5 +2,10 @@
 
 cd
 for i in dotfiles/dotfiles-common/*; do
-    echo ln -s $i .`basename $i`
+    dest=.`basename $i`
+    if [[ -e $dest ]]; then
+        echo ERROR: file already exists: $dest
+    else
+        echo ln -s $i $dest
+    fi
 done
