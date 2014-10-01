@@ -1,3 +1,3 @@
 #! /usr/bin/env sh
 
-http_proxy=$PRIVOXY_TOR_URL uzbl-browser
+export http_proxy=$PRIVOXY_URL; sudo -u _pot -- uzbl-browser
