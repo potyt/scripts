@@ -35,7 +35,7 @@ for f in ~/.*; do
             if ! white $name; then
                 if black $name; then
                     rm -rf $f
-                    echo deleted $f
+                    echo deleted: $f
                 else
                     echo "unknown: $f"
                 fi
