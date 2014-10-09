@@ -1,0 +1,3 @@
+#! /usr/bin/env sh
+
+export http_proxy=$PRIVOXY_TOR_URL; sudo -u _pot -- chromium $*
