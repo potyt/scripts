@@ -1,0 +1,5 @@
+#! /usr/bin/env sh
+
+profile=_pot
+user_agent="Mozilla/5.0 Gecko Firefox"
+export http_proxy=$PRIVOXY_URL; sudo -u _pot -- firefox-aurora -P $profile --new-instance $*
