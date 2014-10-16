@@ -2,4 +2,4 @@
 
 user_data_dir=~_pot/.config/chromium-tor
 user_agent="Mozilla/5.0 AppleWebKit (KHTML, like Gecko) Chrome Safari"
-export http_proxy=$PRIVOXY_TOR_URL; sudo -u _pot -- chromium --user-agent="$user_agent" --user-data-dir=$user_data_dir --incognito $*
+export http_proxy=$PRIVOXY_TOR_URL; sudo -u _pot -- bash -l -c "chromium --user-agent=\"$user_agent\" --user-data-dir=$user_data_dir --incognito $*"
