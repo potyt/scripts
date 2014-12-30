@@ -1,4 +1,4 @@
 #! /usr/bin/env sh
 
-profile=_pot
+profile=firefox_pot
 export http_proxy=$PRIVOXY_URL; sudo -u _pot -- bash -l -c "firefox -P $profile --new-instance $*"
