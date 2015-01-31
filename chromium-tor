@@ -1,9 +1,8 @@
 #! /usr/bin/env sh
 
-user=_pot
 user_data_dir=/home/$user/.config/chromium-tor
 user_agent="Mozilla/5.0 AppleWebKit (KHTML, like Gecko) Chrome Safari"
-export http_proxy=$PRIVOXY_TOR_URL; sudo -u $user -- bash -l -c "chromium --user-agent=\"$user_agent\" --user-data-dir=$user_data_dir --incognito $*"
+export http_proxy=$PRIVOXY_TOR_URL; sudo -u $SANDBOX_USER -- bash -l -c "chromium --user-agent=\"$user_agent\" --user-data-dir=$user_data_dir --incognito $*"
 
 dirs=()
 dirs+=( "Cache" )
@@ -27,5 +26,5 @@ dirs+=( "Media Cache" )
 dirs+=( "Visited Links" )
 
 for ((i=0; i<${#dirs[@]}; i++)); do
-    sudo -u $user -- rm -rf "$user_data_dir/Default/${dirs[$i]}"
+    sudo -u $SANDBOX_USER -- rm -rf "$user_data_dir/Default/${dirs[$i]}"
 done
