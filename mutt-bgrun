@@ -1,7 +1,7 @@
 #!/bin/sh
-# @(#) mutt_bgrun $Revision: 1.4 $
+# @(#) mutt-bgrun $Revision: 1.4 $
 
-#   mutt_bgrun - run an attachment viewer from mutt in the background
+#   mutt-bgrun - run an attachment viewer from mutt in the background
 #   Copyright (C) 1999-2002 Gary A. Johnson
 #
 #   This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 #   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 # SYNOPSIS
-#	mutt_bgrun viewer [viewer options] file
+#	mutt-bgrun viewer [viewer options] file
 #
 # DESCRIPTION
 #	Mutt invokes external attachment viewers by writing the
@@ -52,9 +52,9 @@
 #	To use qvpview to view MS Office attachments from mutt, add the
 #	following lines to mutt's mailcap file.
 #
-#	application/msword;             mutt_bgrun qvpview %s
-#	application/vnd.ms-excel;       mutt_bgrun qvpview %s
-#	application/vnd.ms-powerpoint;  mutt_bgrun qvpview %s
+#	application/msword;             mutt-bgrun qvpview %s
+#	application/vnd.ms-excel;       mutt-bgrun qvpview %s
+#	application/vnd.ms-powerpoint;  mutt-bgrun qvpview %s
 #
 # AUTHOR
 #	Gary A. Johnson
@@ -95,7 +95,7 @@ file=$1
 # This is more secure than creating a temporary file in an existing
 # directory.
 
-tmpdir=/tmp/$LOGNAME$$
+tmpdir=$TMPDIR/$LOGNAME$$
 umask 077
 mkdir "$tmpdir" || exit 1
 tmpfile="$tmpdir/${file##*/}"
@@ -104,11 +104,14 @@ tmpfile="$tmpdir/${file##*/}"
 # let mutt overwrite and delete it when we exit.
 
 cp "$file" "$tmpfile"
+chmod g+rx "$tmpdir"
+chmod g+r "$tmpfile"
 
 # Run the viewer in the background and delete the temporary files when done. 
 
 (
     "$viewer" $options "$tmpfile"
+    sleep 10
     rm -f "$tmpfile"
     rmdir "$tmpdir"
 ) &
