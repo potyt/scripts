@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-dirs=( $(cat ~/.config/git.dirs) )
+dirs=( $(cat "$1") )
 
 for r in ${dirs[@]}; do
     exp=$(eval echo $r)
