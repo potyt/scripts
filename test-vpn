@@ -5,5 +5,5 @@ function check_vpn
     ip route get $DEFAULT_PING_IP | grep -q "dev tun" && echo 0 || echo 1
 }
 
-online=$(check_vpn)
-exit $online
+vpn=$(check_vpn)
+exit $vpn
