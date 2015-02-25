@@ -1,0 +1,15 @@
+#! /usr/bin/env sh
+
+pkgfile=$1
+
+adb root
+adb remount
+
+date=$(date +'%Y%m%d%H%M%S')
+dir=~/backup/$(basename $0)/$date-$(basename $pkgfile)
+
+while read pkg; do
+    mkdir -p $(dirname $dir/$pkg)
+    adb pull $pkg $dir/$pkg
+    adb shell rm -f $pkg
+done < $pkgfile
