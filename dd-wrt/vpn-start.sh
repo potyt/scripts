@@ -9,17 +9,34 @@ dir="/jffs/scripts/"
 
 conf=/jffs/etc/openvpn/client-$idx.conf
 
-remote=$(grep "^remote " $conf | cut -d' ' -f2)
-firewall-hole.sh $remote I
-
 client=$(basename $conf)
 client=$(echo ${client/.conf/})
 routes=${conf/client-/route-}
 domains=${conf/client-/domain-}
 
-def_flag=$([[ $def = 1 ]] && echo "-z" || echo "")
+def_flag=$([[ $def != 0 ]] && echo "-z" || echo "")
 
 pidfile=/var/tmp/openvpn-$idx.pid
 logfile=/var/log/openvpn-$idx.log
 
-openvpn --config $conf --route-noexec --up "$dir/vpn-up.sh -r $routes -d $domains $def_flag" --down "$dir/vpn-down.sh -r $routes -d $domains $def_flag" --down-pre --writepid $pidfile --log $logfile --daemon
+remote_str=""
+while read -r line; do
+    if [ "`expr \"$line\" : \"# *remote \"`" != "0" ]; then
+        host=$(echo $line | cut -d" " -f3)
+        port=$(echo $line | cut -d" " -f4)
+        Ip=$(ip.sh $host)
+        if [[ $Ip ]]; then
+            firewall-hole.sh $Ip I
+            remote_str="$remote_str --remote $Ip $port"
+        else
+            echo "Can't resolve $host"
+        fi
+    fi
+done < $conf
+
+if [[ "$remote_str" ]]; then                                       
+    openvpn --config $conf $remote_str --route-noexec --ping 60 --up "$dir/vpn-up.sh -r $routes -d $domains $def_flag" --down "$dir/vpn-down.sh -r $routes -d $domains $def_flag" --down-pre --writepid $pidfile --log $logfile --daemon
+else
+    echo "No resolved remotes, not starting tunnel"
+    exit 1
+fi

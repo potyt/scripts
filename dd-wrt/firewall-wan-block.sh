@@ -2,5 +2,5 @@
 
 WanIface=$(get_wanface)
 
-iptables -I OUTPUT -o $WanIface -j DROP
-iptables -I FORWARD -o $WanIface -j DROP
+iptables -A lan2wan -j DROP
+iptables -A OUTPUT -o $WanIface -j DROP

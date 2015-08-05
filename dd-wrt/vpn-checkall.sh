@@ -2,13 +2,18 @@
 
 PATH=/jffs/scripts:$PATH
 
-echo VPN check $(date)
+echo "# VPN check $(date)"
 
-vpn_ok=0
+if [[ ! -r /var/tmp/wanup ]]; then
+    echo "WAN not up, exiting"
+    exit 1
+fi
 
-check_vpn()
+vpn_count=0
+
+check_vpns()
 {
-    vpn_ok=0
+    vpn_count=0
     restart=$1
     def=1
     for conf in /jffs/etc/openvpn/client-*.conf; do
@@ -18,7 +23,7 @@ check_vpn()
         vpn_ok=$?
         if [[ $vpn_ok != 0 ]]; then
             echo "VPN $idx down"
-            vpn_ok=$((1+$vpn_ok))
+            vpn_count=$((1+$vpn_count))
             if [[ $restart != 0 ]]; then
                 echo "Restarting VPN $idx"
                 vpn-restart.sh $idx $def
@@ -28,25 +33,29 @@ check_vpn()
     done
 }
 
-restarted=false
+check_vpns 0
+vpn_restart=$vpn_count
 
-check_vpn 0
-if [[ $vpn_ok != 0 ]]; then
-    echo "Some VPNs down, restart check"
-    check_vpn 1
-    if [[ $vpn_ok != 0 ]]; then
-        restarted=true
-    fi
-fi
+if [[ $vpn_restart != 0 ]]; then
+    echo "$vpn_count VPN tunnels down, restart check"
+    check_vpns 1
+    if [[ $vpn_count != 0 ]]; then
+        echo "Some VPN tunnels restarted, waiting ..."
+        sleep 60
+        check_vpns 0
+        if [[ $vpn_count = 0 ]]; then
+            echo "All VPNs now up"
+        fi
 
-if $restarted; then
-    echo "Some VPNs restarted, waiting ..."
-    sleep 60
-    check_vpn 0
-    if [[ $vpn_ok = 0 ]]; then
-        echo "VPNs now up, restarting DNS"
-        dns-restart.sh
+        if [[ $vpn_count != $vpn_restart ]]; then
+            echo "New VPN tunnels, restarting DNS"
+            dns-restart.sh
+        else
+            echo "No new VPN tunnels, not restarting DNS"
+        fi
     else
-        echo "VPNs still down, not restarting DNS"
+        echo "All VPN tunnels up"
     fi
+else
+    echo "All VPN tunnels up"
 fi

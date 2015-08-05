@@ -24,22 +24,28 @@ IspGateway=$(ip route list table main | awk '/default/ { print $3}')
 LanIp=$(nvram get lan_ipaddr)
 LanNetwork="${LanIp%?}0"
 LanIface=$(nvram get lan_ifname)
+CIDR=$(cidr.sh $ifconfig_netmask)
 
+echo "# Setting iptables rules"
 iptables -I FORWARD -i $LanIface -o $dev -j ACCEPT
 iptables -I FORWARD -i $dev -o $LanIface -j ACCEPT
 iptables -I INPUT -i $dev -j ACCEPT
 iptables -t nat -I POSTROUTING -o $dev -j MASQUERADE
 iptables -t nat -I POSTROUTING -o $dev -j SNAT --to-source $ifconfig_local
 
+echo "# Adding remote gateway route"
 ip route add $remote_1/32 via $IspGateway
 
-ip route add $route_network_1 dev $dev src $ifconfig_local table $tbl
+echo "# Adding custom table route"
+ip route add $route_vpn_gateway/$CIDR dev $dev src $ifconfig_local table $tbl
 ip route add $LanNetwork/24 dev $LanIface table $tbl
 ip route add 127.0.0.0/8 dev lo table $tbl
-ip route add default via $ifconfig_remote table $tbl
+ip route add default via $route_vpn_gateway table $tbl
 
-ip route add $route_network_1 via $ifconfig_remote dev $dev
+echo "# Adding remote network route"
+ip route add $route_vpn_gateway/$CIDR via $route_vpn_gateway dev $dev
 
+echo "# Add marking rules"
 ip rule add from $ifconfig_local table $tbl
 ip rule add fwmark $tbl table $tbl
 
@@ -62,18 +68,18 @@ if [[ -r $domains ]]; then
         echo "server=$dns" >> /var/tmp/dnsmasq.server-$idx.conf
     fi
     echo "Setting up domain-specific DNS"
-    grep -v '^#' $domains | grep -v '^[[:space:]]*$' | while read -r line ; do
-        hostname=$line
-        if [[ -n $hostname ]]; then
-            echo "server=/$line/$dns" >> /var/tmp/dnsmasq.server-$idx.conf
+    grep -v '^#' $domains | grep -v '^[[:space:]]*$' | while read -r hostname ; do
+        if [[ $hostname ]]; then
+            echo "- $hostname: $dns"
+            echo "server=/$hostname/$dns" >> /var/tmp/dnsmasq.server-$idx.conf
         fi
     done
 fi
 
 if $default; then
     echo "Setting up default routes"
-    ip route add 0.0.0.0/1 via $ifconfig_remote
-    ip route add 128.0.0.0/1 via $ifconfig_remote
+    ip route add 0.0.0.0/1 via $route_vpn_gateway
+    ip route add 128.0.0.0/1 via $route_vpn_gateway
 fi
 
 ip route flush cache
