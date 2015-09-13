@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
 
-for dir in ~/mail/*; do
-    maildir-count "$dir"
+for dir in $(mutt-list-mailboxes); do
+    maildir-count "$MAILDIR/$dir"
 done | paste -sd+ | bc

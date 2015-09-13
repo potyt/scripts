@@ -1,13 +1,13 @@
 #! /usr/bin/env bash
 
-mail=$(for dir in ~/mail/*; do
-    biff="$dir/biff.txt"
+mail=$(for dir in $(mutt-list-mailboxes); do
+    biff="$MAILDIR/$dir/biff.txt"
     if [ -r "$biff" -a -f "$biff" ]; then
         biffname=`cat $biff`
     else
         biffname=`basename $dir`
     fi
     printf " $biffname: "
-    maildir-count "$dir"
+    maildir-count "$MAILDIR/$dir"
 done | grep -v ": 0" | paste -sd" ")
 [ -z "$mail" ] || echo $mail
