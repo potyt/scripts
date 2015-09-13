@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+prefix=$1
+suffix=$2
+quote=$3
+
+find $MAILDIR -follow -mindepth 1 -maxdepth 1 ! -name archive ! -name localhost ! -name .notmuch -type d -printf "$prefix$quote%f$suffix$quote "
