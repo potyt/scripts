@@ -5,4 +5,6 @@ suffix=$2
 quote=$3
 split=$4
 
+[[ -z $split ]] && split="\n"
+
 find $MAILDIR -follow -mindepth 1 -maxdepth 1 ! -name archive ! -name localhost ! -name .notmuch -type d -printf "$prefix$quote%f$suffix$quote$split"
