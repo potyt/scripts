@@ -2,6 +2,6 @@
 
 QUEUESDIR="$HOME/.msmtpqueue"
 
-for q in $QUEUESDIR/*; do
+for q in $(ls $QUEUESDIR/* 2>/dev/null); do
     echo $(basename $q)
 done
