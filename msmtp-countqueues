@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
-for q in $(msmtp-listqueues); do
-    echo $(msmtp-countqueue $q)
-done | paste -sd+ | bc
+x=$(
+    for q in $(msmtp-listqueues); do
+        echo $(msmtp-countqueue $q)
+    done | paste -sd+ | bc
+)
+
+echo 0$x+0 | bc
