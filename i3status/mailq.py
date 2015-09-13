@@ -1,6 +1,6 @@
 import subprocess
 
-executable = "msmtp-countqueue"
+executable = "msmtp-countqueues"
 
 def run():
     process = subprocess.Popen([executable], stdout=subprocess.PIPE)
