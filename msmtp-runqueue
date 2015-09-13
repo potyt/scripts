@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
-QUEUEDIR="$HOME/.msmtpqueue"
+QUEUE="$1"
+QUEUEDIR="$HOME/.msmtpqueue/$QUEUE"
 LOCKFILE="$QUEUEDIR/.lock"
 MAXWAIT=120
 
-OPTIONS=$@
+OPTIONS="-a $QUEUE"
 
 # wait for a lock that another instance has set
 WAIT=0
@@ -51,5 +52,8 @@ done
 
 # remove the lock
 rm -f "$LOCKFILE"
+
+# remove empty queue dir
+cd & rmdir --ignore-fail-on-non-empty $QUEUEDIR
 
 exit 0

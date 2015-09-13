@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+for queue in $(msmtp-listqueues); do
+    lock-msmtp-runqueue $queue
+done

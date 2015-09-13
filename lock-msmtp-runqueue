@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-lockrun -qn ~/var/lock/msmtp.lock msmtp-runqueue
+queue=$1
+
+lockrun -qn ~/var/lock/msmtp.lock msmtp-runqueue $queue

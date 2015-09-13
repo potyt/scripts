@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+QUEUESDIR="$HOME/.msmtpqueue"
+
+for q in $QUEUESDIR/*; do
+    echo $(basename $q)
+done

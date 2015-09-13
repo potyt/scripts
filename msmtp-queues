@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+for q in $(msmtp-listqueues); do
+    echo $q: $(msmtp-countqueue $q)
+done
