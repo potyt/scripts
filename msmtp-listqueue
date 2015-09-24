@@ -4,5 +4,6 @@ ACCOUNT="$1"
 QUEUEDIR="$HOME/.msmtpqueue/$ACCOUNT"
 
 for i in $QUEUEDIR/*.mail; do
+    echo "** $ACCOUNT"
     egrep -s --colour -h '(^From:|^To:|^Subject:)' "$i" || echo "No mail in queue";
 done
