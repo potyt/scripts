@@ -1,11 +1,11 @@
 #!/bin/sh
 
-PATH=/jffs/scripts:$PATH
+dir="/jffs/scripts/"
+PATH=$dir:$PATH
+export PATH
 
 idx=$1
 def=$2
-
-dir="/jffs/scripts/"
 
 conf=/jffs/etc/openvpn/client-$idx.conf
 
