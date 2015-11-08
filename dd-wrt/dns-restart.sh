@@ -8,7 +8,7 @@ dest=/var/tmp/dnsmasq.conf
 cat $head > $dest
 for f in /var/tmp/dnsmasq.server-*.conf; do
     if [[ -r $f ]]; then
-        echo "Reading $f"
+        log.sh "Reading $f"
         cat $f >> $dest
     fi
 done
@@ -19,13 +19,13 @@ if [[ -r $dest ]]; then
     cfg=$(nvram get dnsmasq_options)
 
     if [[ "$cfg" != "$new" ]]; then
-        echo "WARNING writing DNSMasq options to nvram"
+        log.sh "WARNING writing DNSMasq options to nvram"
         nvram set dnsmasq_options="$new"
         nvram commit
-        echo "DNSMasq settings changed, restarting"
+        log.sh "DNSMasq settings changed, restarting"
         stopservice dnsmasq
         startservice dnsmasq
         nvram_count=$(grep "$warning" /var/log/vpn-checkall.log | wc -l)
-        echo "** Total nvram writes: $nvram_count"
+        log.sh "** Total nvram writes: $nvram_count"
     fi
 fi

@@ -56,7 +56,7 @@ fi
 rm -f /var/tmp/dnsmasq.server-$idx.conf
 
 if $default; then
-    echo "Tearing down default routes"
+    log.sh "Tearing down default routes"
     ip route delete 0.0.0.0/1 via $ifconfig_remote
     ip route delete 128.0.0.0/1 via $ifconfig_remote
 fi

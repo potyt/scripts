@@ -2,4 +2,4 @@
 
 PATH=/jffs/scripts:$PATH
 
-vpn-stopall.sh && vpn-startall.sh
+vpn-stopall.sh && sleep 5 && vpn-startall.sh

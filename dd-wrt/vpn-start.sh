@@ -29,7 +29,7 @@ while read -r line; do
             firewall-hole.sh $Ip I
             remote_str="$remote_str --remote $Ip $port"
         else
-            echo "Can't resolve $host"
+            log.sh "Can't resolve $host"
         fi
     fi
 done < $conf
@@ -37,6 +37,6 @@ done < $conf
 if [[ "$remote_str" ]]; then                                       
     openvpn --config $conf $remote_str --route-noexec --ping 60 --up "$dir/vpn-up.sh -r $routes -d $domains $def_flag" --down "$dir/vpn-down.sh -r $routes -d $domains $def_flag" --down-pre --writepid $pidfile --log $logfile --daemon
 else
-    echo "No resolved remotes, not starting tunnel"
+    log.sh "No resolved remotes, not starting tunnel"
     exit 1
 fi

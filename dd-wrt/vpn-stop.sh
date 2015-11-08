@@ -9,13 +9,15 @@ if [[ -r $pidfile ]]; then
     pid=$(cat $pidfile)
     rm -f $pidfile
     if [[ -n $dns ]]; then
-        echo "Killing pid $pid"
+        log.sh "Killing pid $pid"
         kill $pid
+        sleep 10
+        kill -9 $pid
     else
-        echo "Can't find pid to kill"
+        log.sh "Can't find pid to kill"
     fi
 else
-    echo "Can't find pifile $pidfile"
+    log.sh "Can't find pifile $pidfile"
 fi
 
 conf=/jffs/etc/openvpn/client-$idx.conf
@@ -24,6 +26,6 @@ Ip=$(ip.sh $host)
 if [[ -n $Ip ]]; then
     firewall-hole.sh $Ip D
 else
-    echo "Can't get IP for $host"
+    log.sh "Can't get IP for $host"
     exit 1
 fi
