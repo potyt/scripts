@@ -1,13 +1,11 @@
 #!/bin/sh
 
-dir="/jffs/scripts/"
-PATH=$dir:$PATH
-export PATH
-
 idx=$1
 def=$2
+log.sh "Starting VPN $idx $def"
 
 conf=/jffs/etc/openvpn/client-$idx.conf
+dir=/jffs/scripts
 
 client=$(basename $conf)
 client=$(echo ${client/.conf/})

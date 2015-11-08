@@ -1,5 +1,9 @@
 #!/bin/sh
 
+dir=/jffs/scripts
+PATH=$dir:$PATH
+export PATH
+
 routes=""
 domains=""
 default=false
