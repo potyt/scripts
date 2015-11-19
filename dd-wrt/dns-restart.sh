@@ -1,5 +1,7 @@
 #!/bin/sh
 
+PATH=/jffs/scripts:$PATH
+
 head=/jffs/etc/dnsmasq.conf-head
 tail=/jffs/etc/dnsmasq.conf-tail
 
