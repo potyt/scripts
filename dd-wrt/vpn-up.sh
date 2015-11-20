@@ -38,13 +38,15 @@ iptables -I INPUT -i $dev -j ACCEPT
 iptables -t nat -I POSTROUTING -o $dev -j MASQUERADE
 iptables -t nat -I POSTROUTING -o $dev -j SNAT --to-source $ifconfig_local
 
+log.sh "# Add marking rules"
+log.sh "ip rule add from $ifconfig_local table $tbl"
+ip rule add from $ifconfig_local table $tbl
+log.sh "ip rule add fwmark $tbl table $tbl"
+ip rule add fwmark $tbl table $tbl
+
 log.sh "# Adding remote gateway route"
 log.sh "ip route add $remote_1/32 via $IspGateway"
 ip route add $remote_1/32 via $IspGateway
-
-log.sh "# Adding remote network route"
-log.sh "ip route add $VpnGatewayNetwork/$CIDR via $route_vpn_gateway dev $dev"
-ip route add $VpnGatewayNetwork/$CIDR via $route_vpn_gateway dev $dev
 
 log.sh "# Adding custom table route"
 log.sh "ip route add $VpnGatewayNetwork/$CIDR dev $dev src $ifconfig_local table $tbl"
@@ -55,12 +57,6 @@ log.sh "ip route add 127.0.0.0/8 dev lo table $tbl"
 ip route add 127.0.0.0/8 dev lo table $tbl
 log.sh "ip route add default via $route_vpn_gateway table $tbl"
 ip route add default via $route_vpn_gateway table $tbl
-
-log.sh "# Add marking rules"
-log.sh "ip rule add from $ifconfig_local table $tbl"
-ip rule add from $ifconfig_local table $tbl
-log.sh "ip rule add fwmark $tbl table $tbl"
-ip rule add fwmark $tbl table $tbl
 
 dns=$(echo $foreign_option_1 | grep "dhcp-option DNS" | cut -d' ' -f3)
 echo $dns > /var/tmp/dns-$idx
