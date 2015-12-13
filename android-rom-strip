@@ -1,6 +1,7 @@
 #! /usr/bin/env sh
 
 pkgfile=$1
+backup=$([[ $2 == "backup" ]] && echo true || echo false)
 
 adb root
 adb remount
@@ -9,7 +10,9 @@ date=$(date +'%Y%m%d%H%M%S')
 dir=~/backup/$(basename $0)/$date-$(basename $pkgfile)
 
 while read pkg; do
-    mkdir -p $(dirname $dir/$pkg)
-    adb pull $pkg $dir/$pkg
+    if $backup; then
+        mkdir -p $(dirname $dir/$pkg)
+        adb pull $pkg $dir/$pkg
+    fi
     adb shell rm -rf $pkg
 done < $pkgfile
