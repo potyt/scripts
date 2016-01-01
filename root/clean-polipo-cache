@@ -1,0 +1,15 @@
+#! /usr/bin/env sh
+
+set +o posix
+
+conf=$1
+mins=$2
+
+pid=$(cat $(egrep "^pidFile" $conf | sed -e 's/^\s*.*\s*=\s*//'))
+dir=$(egrep "^diskCacheRoot" $conf | sed -e 's/^\s*.*\s*=\s*//' | sed -e 's/^"//' | sed -e 's/"$//')
+
+kill -SIGUSR1 $pid
+sleep 5
+
+find $dir -type f -mmin +$mins -exec rm \{\} \;
+find $dir -type d -mmin +$mins -empty -prune -exec rmdir \{\} \;

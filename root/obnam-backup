@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+
+dirs=( $(cat ~/.config/backup.dirs) )
+
+for dir in ${dirs[@]}; do
+    echo obnam backup "$dir"
+done
+obnam verify
+obnam forget --keep=30d
