@@ -12,4 +12,4 @@ kill -SIGUSR1 $pid
 sleep 5
 
 find $dir -type f -mmin +$mins -exec rm \{\} \;
-find $dir -type d -mmin +$mins -empty -prune -exec rmdir \{\} \;
+find $dir/* -type d -mmin +$mins -empty -prune -exec rmdir \{\} \;
