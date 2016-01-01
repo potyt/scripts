@@ -1,4 +1,4 @@
 #! /usr/bin/env sh
 
 profile=firefox_pot
-export http_proxy=$PRIVOXY_URL; sudo -u $SANDBOX_USER -- bash -l -c "firefox -P $profile --new-instance $*"
+export http_proxy=$PRIVOXY_URL; sudo -u $SANDBOX_USER -- bash -l -c "firefox -P $profile --new-instance \"$@\""

@@ -2,7 +2,7 @@
 
 FILE=$1
 shift
-DMENU=$*
+DMENU="$@"
 
 HEIGHT=$(cat $FILE | wc -l)
 PROMPT="Tasks"

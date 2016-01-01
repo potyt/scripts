@@ -2,7 +2,7 @@
 
 user_data_dir=/home/$user/.config/chromium
 user_agent="Mozilla/5.0 AppleWebKit (KHTML, like Gecko) Chrome Safari"
-export http_proxy=$PRIVOXY_URL; sudo -u $SANDBOX_USER -- bash -l -c "chromium --user-agent==\"$user_agent\" --user-data-dir=$user_data_dir $*"
+export http_proxy=$PRIVOXY_URL; sudo -u $SANDBOX_USER -- bash -l -c "chromium --user-agent==\"$user_agent\" --user-data-dir=$user_data_dir \"$@\""
 
 dirs=()
 dirs+=( "Cache" )
