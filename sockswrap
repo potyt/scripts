@@ -1,0 +1,10 @@
+#! /usr/bin/env sh
+
+conf=$1
+prog=$2
+shift
+shift
+
+. ~/.env.noproxy
+export TSOCKS_CONF_FILE="$conf"
+tsocks $prog "$@"
