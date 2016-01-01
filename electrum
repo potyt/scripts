@@ -2,5 +2,6 @@
 
 conf=~/.config/tsocks-tor.conf
 prog=/usr/bin/electrum
+env=~/dotfiles/dotfiles-common/app-env/electrum.env
 
-sockswrap $conf $prog
+sockswrap $conf $prog $env

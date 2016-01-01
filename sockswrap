@@ -2,9 +2,12 @@
 
 conf=$1
 prog=$2
+env=$3
+shift
 shift
 shift
 
 . ~/.env.noproxy
+. $env
 export TSOCKS_CONF_FILE="$conf"
 tsocks $prog "$@"
