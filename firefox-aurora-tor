@@ -1,4 +1,4 @@
 #! /usr/bin/env sh
 
 profile=aurora_pot-tor
-export http_proxy=$PRIVOXY_TOR_URL; sudo -u $SANDBOX_USER -- bash -l -c "firefox-aurora -P $profile --new-instance \"$@\""
+export http_proxy=$PRIVOXY_TOR_URL; sudo -u $SANDBOX_USER -- bash -l -c "firefox-aurora -P $profile \"$@\" &"

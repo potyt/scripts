@@ -1,4 +1,4 @@
 #! /usr/bin/env sh
 
 profile=firefox_pot-tor
-export http_proxy=$PRIVOXY_TOR_URL; sudo -u _pot -- bash -l -c "firefox -P $profile --new-instance \"$@\""
+export http_proxy=$PRIVOXY_TOR_URL; sudo -u _pot -- bash -l -c "firefox -P $profile \"$@\" &"
