@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+
+lusr=$1
+rusr=$2
+host=$3
+
+cmd=$4
+
+su -l $lusr -c "ssh $rusr@$host \"$cmd\""
