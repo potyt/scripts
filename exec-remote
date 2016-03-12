@@ -1,9 +1,10 @@
 #! /usr/bin/env bash
 
-lusr=$1
-rusr=$2
-host=$3
+usr=$1
+shift
+host=$1
+shift
 
-cmd=$4
+cmd="$@"
 
-su -l $lusr -c "ssh $rusr@$host \"$cmd\""
+sudo -u admin -- ssh $usr@$host $cmd
