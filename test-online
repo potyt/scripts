@@ -2,7 +2,7 @@
 
 function check_online
 {
-    ping -c 1 $DEFAULT_PING_IP >/dev/null 2>&1 && echo 0 || echo 1
+    ping -4 -c 1 $DEFAULT_PING_IP >/dev/null 2>&1 && echo 0 || echo 1
 }
 
 online=$(check_online)
