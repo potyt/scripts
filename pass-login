@@ -1,0 +1,14 @@
+#! /usr/bin/env bash
+
+acc=$1
+
+flds=( "Username" "Account" "Email" )
+
+val=""
+for fld in ${flds[@]}; do
+    val=$(pass-field $acc $fld)
+    if [[ -n $val ]]; then
+        break
+    fi
+done
+echo $val
