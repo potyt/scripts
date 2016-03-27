@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+prog=$1
+shift
+
+$prog "$@"
+
+read -p "Press any key... " -n1 -s
