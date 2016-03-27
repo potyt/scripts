@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+lock-mbsync-all
+lock-msmtp-runqueues
