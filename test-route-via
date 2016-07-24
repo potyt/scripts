@@ -1,0 +1,10 @@
+#! /usr/bin/env bash
+
+function check_route_via
+{
+    traceroute $DEFAULT_PING_IP | tr -s " " | sed -e "s/^ //" | cut -d" " -f2 | grep "^$1" >/dev/null 2>&1 && echo 0 || echo 1
+}
+
+via=$1
+route_via=$(check_route_via $via)
+exit $route_via
