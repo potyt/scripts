@@ -1,3 +1,0 @@
-#! /usr/bin/env sh
-
-export http_proxy=$PRIVOXY_TOR_URL; sudo -u $SANDBOX_USER -- bash -l -c "uzbl-browser \"$@\""
