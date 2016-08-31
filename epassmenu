@@ -9,8 +9,16 @@ if [[ $1 == "--type" ]]; then
 fi
 
 login=0
+email=0
+url=0
 if [[ $1 == "--login" ]]; then
 	login=1
+	shift
+elif [[ $1 == "--email" ]]; then
+	email=1
+	shift
+elif [[ $1 == "--url" ]]; then
+	url=1
 	shift
 fi
 
@@ -23,14 +31,18 @@ password=$(printf '%s\n' "${password_files[@]}" | dmenu "$@")
 
 [[ -n $password ]] || exit
 
-if [[ $login -eq 0 ]]; then
-    passwordval=$(pass show $password | head -n 1)
-else
+if [[ $login -eq 1 ]]; then
     passwordval=$(pass-login $password)
+elif [[ $email -eq 1 ]]; then
+    passwordval=$(pass-email $password)
+elif [[ $url -eq 1 ]]; then
+    passwordval=$(pass-url $password)
+else
+    passwordval=$(pass show $password | head -n 1)
 fi
 
-if [[ $typeit -eq 0 ]]; then
-	echo do send passwordval to clipboard
-else
+if [[ $typeit -eq 1 ]]; then
 	xdotool - <<<"type --clearmodifiers -- $passwordval"
+else
+	echo do send passwordval to clipboard
 fi
