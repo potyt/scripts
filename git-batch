@@ -1,15 +1,17 @@
 #! /usr/bin/env bash
 
 prog=$(basename $0)
-dirs=( $(cat "$1") ); shift
-cmd="$@"
+IFS=$'\n' read -d '' -r -a dirs < $1
+IFS=$'\n' read -d '' -r -a cmds < ~/.config/$prog.d/"$2"
 
-for r in ${dirs[@]}; do
-    exp=$(eval echo $r)
-    for d in $exp; do
+for r in "${dirs[@]}"; do
+    expd=$(eval echo $r)
+    for d in $expd; do
         if [[ -d $d ]]; then
             cd $d
-            ${prog%-batch} $cmd
+            for c in "${cmds[@]}"; do
+                echo ${prog%-batch} $c
+            done
         fi
     done
 done
