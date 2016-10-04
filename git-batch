@@ -10,7 +10,7 @@ for r in "${dirs[@]}"; do
         if [[ -d $d ]]; then
             cd $d
             for c in "${cmds[@]}"; do
-                echo ${prog%-batch} $c
+                ${prog%-batch} $c
             done
         fi
     done
