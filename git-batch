@@ -1,0 +1,15 @@
+#! /usr/bin/env bash
+
+prog=$(basename $0)
+dirs=( $(cat "$1") ); shift
+cmd="$@"
+
+for r in ${dirs[@]}; do
+    exp=$(eval echo $r)
+    for d in $exp; do
+        if [[ -d $d ]]; then
+            cd $d
+            ${prog%-batch} $cmd
+        fi
+    done
+done

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+prog=$(basename $0)
+prog=${prog#lock-}
+
+lockrun -qn ~/var/lock/$prog.lock $prog "$@"
+
+exit 0
