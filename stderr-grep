@@ -1,0 +1,6 @@
+#! /usr/bin/env bash
+
+cmd=${@:1:$(($# - 1))}
+pat=${@:$#}
+
+$cmd 2> >(egrep -v $pat) >&2
