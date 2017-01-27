@@ -5,19 +5,46 @@ dirs=( $(cat "$1") )
 for r in ${dirs[@]}; do
     exp=$(eval echo $r)
     for d in $exp; do
+        dmis=true
+        gmis=true
+        remt=false
+        pull=false
+        comt=false
+        trck=false
         if [[ -d $d ]]; then
-            need_pull=$( cd $d; [[ $(git rev-parse HEAD) == $(git rev-parse @{u}) ]] && echo false || echo true )
-            if $need_pull; then
-                echo push/pull required: $d
+            dmis=false
+            if [[ -d $d/.git ]]; then
+                gmis=false
+                remt=$( cd $d; [[ $(git ls-remote 2>/dev/null) ]] && echo true || echo false )
+                if $remt; then
+                    pull=$( cd $d; [[ $(git rev-parse HEAD) == $(git rev-parse @{u}) ]] && echo false || echo true )
+                fi
+                comt=$( cd $d; git diff --quiet && echo false || echo true )
+                trck=$( cd $d; [[ -z $(git ls-files --others --exclude-standard) ]] && echo false || echo true )
             fi
-            uncommitted=$( cd $d; git diff --quiet && echo false || echo true )
-            if $uncommitted; then
-                echo commit required: $d
+        fi
+
+        if $dmis || $gmis || ! $remt || $pull || $comt || $trck; then
+            echo "** $d:"
+            if $dmis; then
+                echo directory missing
             fi
-            untracked=$( cd $d; [[ -z $(git ls-files --others --exclude-standard) ]] && echo false || echo true )
-            if $untracked; then
-                echo untracked files: $d
+            if $dmis; then
+                echo .git directory missing
             fi
+            if ! $remt; then
+                echo no remote configured
+            fi
+            if $pull; then
+                echo push/pull required
+            fi
+            if $comt; then
+                echo commit required
+            fi
+            if $trck; then
+                echo untracked files
+            fi
+            echo
         fi
     done
 done
