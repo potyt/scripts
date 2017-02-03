@@ -15,8 +15,8 @@ for r in ${dirs[@]}; do
             dmis=false
             if [[ -d $d/.git ]]; then
                 gmis=false
-                remt=$( cd $d; [[ $(git ls-remote 2>/dev/null) ]] && echo true || echo false )
-                if $remt; then
+                remt=$( cd $d; [[ $(git ls-remote 2>/dev/null) ]] && echo false || echo true )
+                if ! $remt; then
                     pull=$( cd $d; [[ $(git rev-parse HEAD) == $(git rev-parse @{u}) ]] && echo false || echo true )
                 fi
                 comt=$( cd $d; git diff --quiet && echo false || echo true )
@@ -24,15 +24,15 @@ for r in ${dirs[@]}; do
             fi
         fi
 
-        if $dmis || $gmis || ! $remt || $pull || $comt || $trck; then
+        if $dmis || $gmis || $remt || $pull || $comt || $trck; then
             echo "** $d:"
             if $dmis; then
                 echo directory missing
             fi
-            if $dmis; then
-                echo .git directory missing
+            if $gmis; then
+                echo not under git control
             fi
-            if ! $remt; then
+            if $remt; then
                 echo no remote configured
             fi
             if $pull; then
