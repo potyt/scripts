@@ -2,5 +2,5 @@
 
 # start gpg-agent if needed
 if [[ -z $GPG_AGENT_PID ]] || ! kill -0 $GPG_AGENT_PID 2>/dev/null; then
-    eval "$(gpg-agent --daemon --write-env-file $GPG_AGENT_ENV_FILE)"
+    eval "$(gpg-agent --daemon)"
 fi
