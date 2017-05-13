@@ -1,8 +1,5 @@
 #! /usr/bin/env bash
 
-# in case gpg-agent has been restarted
-. ~/.env.gpg
-
 key=$1
 if [ -z "$key" ]; then
     key=$GPGKEY
