@@ -17,7 +17,7 @@ if [[ -r $pidfile ]]; then
         log.sh "Can't find pid to kill"
     fi
 else
-    log.sh "Can't find pifile $pidfile"
+    log.sh "Can't find pidfile $pidfile"
 fi
 
 conf=/jffs/etc/openvpn/client-$idx.conf
