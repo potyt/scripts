@@ -1,30 +1,4 @@
 #! /usr/bin/env sh
 
-user_data_dir=/home/$user/.config/chromium
 user_agent="Mozilla/5.0 AppleWebKit (KHTML, like Gecko) Chrome Safari"
-export http_proxy=$PRIVOXY_URL; sudo -u $SANDBOX_USER -- bash -l -c "chromium --user-agent==\"$user_agent\" --user-data-dir=$user_data_dir \"$@\""
-
-dirs=()
-dirs+=( "Cache" )
-dirs+=( "History" "History-journal" )
-dirs+=( "History Provider Cache" )
-dirs+=( "Favicons" "Favicons-journal" )
-dirs+=( "Login Data" "Login Data-journal" )
-dirs+=( "Network Action Predictor" "Network Action Predictor-journal" )
-dirs+=( "QuotaManager" "QuotaManager-journal" )
-dirs+=( "Top Sites" "Top Sites-journal" )
-dirs+=( "Web Data" "Web Data-journal" )
-dirs+=( "Bookmarks.bak" )
-dirs+=( "Pepper Data" )
-dirs+=( "GPUCache" )
-dirs+=( "Archived History" )
-dirs+=( "Current Session" )
-dirs+=( "Current Tabs" )
-dirs+=( "Last Session" )
-dirs+=( "Last Tabs" )
-dirs+=( "Media Cache" )
-dirs+=( "Visited Links" )
-
-for ((i=0; i<${#dirs[@]}; i++)); do
-    sudo -u $SANDBOX_USER -- rm -rf "$user_data_dir/Default/${dirs[$i]}"
-done
+export http_proxy=$PRIVOXY_URL; sudo -u $SANDBOX_USER -- bash -l -c "chromium --user-agent==\"$user_agent\" \"$@\""
