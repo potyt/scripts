@@ -1,7 +1,9 @@
 #! /usr/bin/env bash
 
+type=$1
+
 cd
-for i in dotfiles/dotfiles-common/*; do
+for i in dotfiles/dotfiles-$type/*; do
     dest=.`basename $i`
     if [[ -e $dest ]]; then
         echo ERROR: file already exists: $dest
