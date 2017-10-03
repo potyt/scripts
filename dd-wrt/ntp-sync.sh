@@ -5,11 +5,17 @@ PATH=/jffs/scripts:$PATH
 log.sh "# NTP sync $(date)"
 
 Ntp=$(nvram get ntp_server)
-Ip=$(ip-cacher.sh $Ntp)
-while ! ping.sh $Ip; do
-    log.sh "# Can't reach NTP IP $Ip"
-    Ip=$(ip-cacher.sh $Ntp 1)
-    sleep 1
+pinged=1
+while ! $pinged; do
+    Ip=$(ip-cacher.sh $Ntp)
+    firewall-hole.sh $Ip I
+    pinged=$(ping.sh $Ip)
+    if ! $pinged; then
+        log.sh "# Can't reach NTP IP $Ip"
+        ip-cachew.sh $Ntp 1
+    fi
+    firewall-hole.sh $Ip D
+    sleep 5
 done
 log.sh "# Reached NTP IP $Ip"
 if [[ -n $Ip ]]; then
