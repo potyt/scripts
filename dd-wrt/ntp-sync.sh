@@ -6,27 +6,30 @@ log.sh "# NTP sync $(date)"
 
 Ntp=$(nvram get ntp_server)
 ip-cachew.sh $Ntp
-pinged=false
-while ! $pinged; do
+synced=false
+while ! $synced; do
     Ip=$(ip-cacher.sh $Ntp)
-    log.sh "# Opening firewall hole $Ip"
-    firewall-hole.sh $Ip I
-    log.sh "# Pinging $Ip"
-    ping.sh $Ip
-    if [[ $? != 0 ]]; then
-        log.sh "# Can't reach NTP IP $Ip"
-        ip-cachew.sh $Ntp 1
-    else
-        log.sh "# Reached NTP IP $Ip"
-        pinged=true
-        log.sh "# Syncing to NTP server $Ip"
-        ntpclient $Ip && stopservice process_monitor && startservice process_monitor
+    if [[ -n $Ip ]]; then
+        log.sh "# Trying NTP server $Ip"
+        firewall-hole.sh $Ip I
+        log.sh "Pinging $Ip"
+        ping.sh $Ip
         if [[ $? != 0 ]]; then
-            log.sh "# Failed to sync"
+            log.sh "Can't ping $Ip"
         else
-            sleep 20
+            log.sh "Syncing to NTP server $Ip"
+            ntpclient $Ip && stopservice process_monitor && startservice process_monitor
+            if [[ $? = 0 ]]; then
+                synced=true
+                sleep 20
+                log.sh "NTP sync successful"
+            fi
         fi
+        firewall-hole.sh $Ip D
     fi
-    log.sh "# Closing firewall hole $Ip"
-    firewall-hole.sh $Ip D
+
+    if ! $synced; then
+        log.sh "Failed to sync, resolving new NTP server IP"
+        ip-cachew.sh $Ntp 1
+    fi
 done
