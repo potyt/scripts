@@ -1,5 +1,7 @@
 #!/bin/sh
 
+PATH=/jffs/scripts:$PATH
+
 idx=$1
 def=$2
 log.sh "Starting VPN $idx $def"
