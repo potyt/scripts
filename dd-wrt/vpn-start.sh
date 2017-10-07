@@ -6,9 +6,6 @@ idx=$1
 def=$2
 log.sh "Starting VPN $idx $def"
 
-log.sh "Syncing NTP"
-ntp-sync.sh
-
 conf=/jffs/etc/openvpn/client-$idx.conf
 dir=/jffs/scripts
 
