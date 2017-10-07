@@ -11,7 +11,7 @@ if [[ -r $file ]]; then
     log.sh "Found DNS server record for VPN $idx"
     dns=$(cat /var/tmp/dns-$idx)
     log.sh "$dns"
-    ping -c1 $dns > /dev/null 2>&1
+    ping.sh $dns
     if [[ $? != 0 ]]; then
         log.sh "Can't ping DNS $dns"
         down=true
