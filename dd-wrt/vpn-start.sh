@@ -16,9 +16,18 @@ domains=${conf/client-/domain-}
 
 def_flag=$([[ $def != 0 ]] && echo "-z" || echo "")
 
+runfile=/var/tmp/openvpn-starting-$idx
 pidfile=/var/tmp/openvpn-$idx.pid
 logfile=/var/log/openvpn-$idx.log
 
+if [[ -r $runfile ]]; then
+    log.sh "VPN $idx start already in progress"
+    exit 0
+else
+    touch $runfile
+fi
+
+rv=1
 remote_str=""
 while read -r line; do
     if [ "`expr \"$line\" : \"# *remote \"`" != "0" ]; then
@@ -37,7 +46,11 @@ done < $conf
 
 if [[ "$remote_str" ]]; then                                       
     openvpn --config $conf $remote_str --route-noexec --ping 60 --up "$dir/vpn-up.sh -r $routes -d $domains $def_flag" --down "$dir/vpn-down.sh -r $routes -d $domains $def_flag" --down-pre --writepid $pidfile --log $logfile --daemon
+    rv=0
 else
     log.sh "No resolved remotes, not starting tunnel"
-    exit 1
 fi
+
+rm $runfile
+
+exit $rv
