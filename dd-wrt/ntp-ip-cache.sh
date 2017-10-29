@@ -2,4 +2,15 @@
 
 PATH=/jffs/scripts:$PATH
 
-ip-cachew.sh $(nvram get ntp_server)
+Ntp=$(nvram get ntp_server)
+
+cached=false
+while ! $cached; do
+    ip-cachew.sh $Ntp
+    if [[ $? = 0 ]]; then
+        cached=true
+    else
+        log.sh "Failed to cache IP for $Ntp"
+        sleep 10
+    fi
+done

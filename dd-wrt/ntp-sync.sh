@@ -2,15 +2,16 @@
 
 PATH=/jffs/scripts:$PATH
 
-log.sh "# NTP sync $(date)"
+log.sh "NTP sync $(date)"
 
 Ntp=$(nvram get ntp_server)
 ip-cachew.sh $Ntp
 synced=false
 while ! $synced; do
+    log.sh "Looking up NTP server $Ntp"
     Ip=$(ip-cacher.sh $Ntp)
     if [[ -n $Ip ]]; then
-        log.sh "# Trying NTP server $Ip"
+        log.sh "Trying NTP server $Ip"
         firewall-hole.sh $Ip I
         log.sh "Pinging $Ip"
         ping.sh $Ip
@@ -31,5 +32,6 @@ while ! $synced; do
     if ! $synced; then
         log.sh "Failed to sync, resolving new NTP server IP"
         ip-cachew.sh $Ntp 1
+        sleep 30
     fi
 done
