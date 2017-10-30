@@ -4,6 +4,15 @@ PATH=/jffs/scripts:$PATH
 
 log.sh "NTP sync $(date)"
 
+runfile=/var/tmp/ntp-sync
+
+if [[ -r $runfile ]]; then
+    log.sh "NTP sync already in progress"
+    exit 0
+else
+    touch $runfile
+fi
+
 Ntp=$(nvram get ntp_server)
 ip-cachew.sh $Ntp
 synced=false
@@ -35,3 +44,5 @@ while ! $synced; do
         sleep 30
     fi
 done
+
+rm $runfile
