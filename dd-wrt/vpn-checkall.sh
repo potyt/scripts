@@ -5,8 +5,16 @@ PATH=/jffs/scripts:$PATH
 log.sh "# VPN check $(date)"
 
 if [[ ! -r /var/tmp/wanup ]]; then
-    log.sh "WAN not up, exiting"
+    log.sh "WAN setup not complete, exiting"
     exit 1
+fi
+
+runfile=/var/tmp/openvpn-checkall
+if [[ -r $runfile ]]; then
+    log.sh "VPN check already in progress"
+    exit 0
+else
+    touch $runfile
 fi
 
 vpn_count=0
@@ -59,3 +67,5 @@ if [[ $vpn_restart != 0 ]]; then
 else
     log.sh "All VPN tunnels up"
 fi
+
+rm $runfile

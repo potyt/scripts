@@ -7,6 +7,10 @@ tail=/jffs/etc/dnsmasq.conf-tail
 
 dest=/var/tmp/dnsmasq.conf
 
+checklogfile=/var/log/vpn-checkall.log
+
+warning="WARNING writing DNSMasq options to nvram"
+
 cat $head > $dest
 for f in /var/tmp/dnsmasq.server-*.conf; do
     if [[ -r $f ]]; then
@@ -27,7 +31,9 @@ if [[ -r $dest ]]; then
         log.sh "DNSMasq settings changed, restarting"
         stopservice dnsmasq
         startservice dnsmasq
-        nvram_count=$(grep "$warning" /var/log/vpn-checkall.log | wc -l)
-        log.sh "** Total nvram writes: $nvram_count"
+        if [[ -r $checklogfile ]]; then
+            nvram_count=$(grep "$warning" $checklogfile | wc -l)
+            log.sh "** Total nvram writes: $nvram_count"
+        fi
     fi
 fi

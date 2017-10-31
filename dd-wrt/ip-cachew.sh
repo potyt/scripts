@@ -29,9 +29,9 @@ if [[ ! -r $file ]]; then
     if [[ $Ip ]]; then
         echo $Ip > $file
     else
-        >&2 log.sh "Unable to lookup IP for $host"
+        log.sh "Unable to lookup IP for $host"
         exit 1
     fi
 else
-    >&2 log.sh "IP cache file exists $file"
+    log.sh "IP cache file exists $file"
 fi

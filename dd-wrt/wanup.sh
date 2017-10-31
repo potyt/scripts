@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 PATH=/jffs/scripts:$PATH
 
 logfile=/var/log/wanup.log
@@ -13,7 +15,6 @@ else
 fi
 
 log.sh "# Blocking WAN" >> $logfile
-firewall-wan-open >> $logfile
 firewall-wan-block.sh >> $logfile
 log.sh "# Blocked WAN" >> $logfile
 
@@ -29,10 +30,6 @@ log.sh "# Caching NTP server IP" >> $logfile
 ntp-ip-cache.sh >> $logfile        
 log.sh "# Cached NTP server IP" >> $logfile
 
-log.sh "# Syncing NTP" >> $logfile      
-ntp-sync.sh >> $logfile            
-log.sh "# Synced NTP" >> $logfile      
-
 log.sh "# Setting up firewall loopback" >> $logfile   
 firewall-loopback.sh >> $logfile   
 log.sh "# Set up firewall loopback" >> $logfile   
@@ -41,9 +38,9 @@ log.sh "# Capturing DNS" >> $logfile
 firewall-capture-dns.sh >> $logfile
 log.sh "# Captured DNS" >> $logfile 
 
-log.sh "# Starting tunnels" >> $logfile 
-vpn-startall.sh >> $logfile
-log.sh "# Started tunnels" >> $logfile 
+log.sh "# Starting tunnels" >> $logfile
+vpn-checkall.sh >> $logfile
+log.sh "# Started tunnels" >> $logfile
 
 log.sh "# Starting cron reset watchdog" >> $logfile
 (nohup /jffs/scripts/cron-reset.sh 2>&1 > /var/log/cron-reset.log &)
