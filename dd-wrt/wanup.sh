@@ -38,6 +38,9 @@ log.sh "# Capturing DNS" >> $logfile
 firewall-capture-dns.sh >> $logfile
 log.sh "# Captured DNS" >> $logfile 
 
+log.sh "# Marking WAN setup complete" >> $logfile
+touch /var/tmp/wanup
+
 log.sh "# Starting tunnels" >> $logfile
 vpn-checkall.sh >> $logfile
 log.sh "# Started tunnels" >> $logfile
@@ -45,5 +48,3 @@ log.sh "# Started tunnels" >> $logfile
 log.sh "# Starting cron reset watchdog" >> $logfile
 (nohup /jffs/scripts/cron-reset.sh 2>&1 > /var/log/cron-reset.log &)
 log.sh "# Started cron reset watchdog" >> $logfile
-
-touch /var/tmp/wanup

@@ -32,11 +32,16 @@ else
 fi
 
 conf=/jffs/etc/openvpn/client-$idx.conf
-host=$(egrep "^# *remote " $conf | cut -d' ' -f3)
-Ip=$(ip.sh $host)
-if [[ $Ip ]]; then
-    firewall-hole.sh $Ip D
-else
-    log.sh "Can't get IP for $host"
-    exit 1
-fi
+while read -r line; do
+    host=$(egrep "^# *remote " $line | cut -d' ' -f3)
+    if [[ $host ]]; then
+        log.sh "Getting IP for $host"
+        ip-cachew.sh $host
+        Ip=$(ip-cacher.sh $host)
+        if [[ $Ip ]]; then
+            firewall-hole.sh $Ip D
+        else
+            log.sh "Can't get IP for $host"
+        fi
+    fi
+done < $conf

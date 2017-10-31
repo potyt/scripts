@@ -34,7 +34,8 @@ while read -r line; do
         host=$(echo $line | cut -d" " -f3)
         port=$(echo $line | cut -d" " -f4)
         log.sh "Getting IP for $host"
-        Ip=$(ip.sh $host)
+        ip-cachew.sh $host
+        Ip=$(ip-cacher.sh $host)
         if [[ $Ip ]]; then
             firewall-hole.sh $Ip I
             remote_str="$remote_str --remote $Ip $port"

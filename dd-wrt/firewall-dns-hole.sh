@@ -11,10 +11,11 @@ if [[ $a ]]; then
 
     for Ip in $Ips; do
         if [[ $Ip ]]; then
+            log.sh "DNS hole: $Ip $a"
             firewall-hole.sh $Ip $a
         fi
     done
 else
-    log.sh "!! Can't add firewall rules: no LanIp/LanIface"
+    log.sh "!! Can't add firewall rules: no action"
     exit 1
 fi
