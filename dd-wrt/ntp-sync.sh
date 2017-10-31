@@ -19,7 +19,7 @@ synced=false
 while ! $synced; do
     log.sh "Looking up NTP server $Ntp"
     Ip=$(ip-cacher.sh $Ntp)
-    if [[ -n $Ip ]]; then
+    if [[ $Ip ]]; then
         log.sh "Trying NTP server $Ip"
         firewall-hole.sh $Ip I
         log.sh "Pinging $Ip"

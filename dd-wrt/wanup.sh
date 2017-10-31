@@ -3,7 +3,15 @@
 PATH=/jffs/scripts:$PATH
 
 logfile=/var/log/wanup.log
-                     
+
+runfile=/var/tmp/wanup.start
+if [[ -r $runfile ]]; then
+    log.sh "# wanup.sh already running"
+    exit 0
+else
+    touch $runfile
+fi
+
 log.sh "# Blocking WAN" >> $logfile
 firewall-wan-open >> $logfile
 firewall-wan-block.sh >> $logfile

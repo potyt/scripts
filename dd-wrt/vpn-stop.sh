@@ -18,7 +18,7 @@ if [[ ! "$pid" ]]; then
     pid=$(ps | grep openvpn | grep client-$idx | sed "s/^[ \t]*//" | cut -d" " -f1)
 fi
 
-if [[ -n $pid ]]; then
+if [[ $pid ]]; then
     log.sh "Killing pid $pid"
     kill $pid 2>/dev/null
     if [[ $? = 0 ]]; then
@@ -34,7 +34,7 @@ fi
 conf=/jffs/etc/openvpn/client-$idx.conf
 host=$(egrep "^# *remote " $conf | cut -d' ' -f3)
 Ip=$(ip.sh $host)
-if [[ -n $Ip ]]; then
+if [[ $Ip ]]; then
     firewall-hole.sh $Ip D
 else
     log.sh "Can't get IP for $host"
