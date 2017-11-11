@@ -47,7 +47,7 @@ done < $conf
 
 if [[ "$remote_str" ]]; then                                       
     openvpn --config $conf $remote_str --route-noexec --ping 60 --up "$dir/vpn-up.sh -r $routes -d $domains $def_flag" --down "$dir/vpn-down.sh -r $routes -d $domains $def_flag" --down-pre --writepid $pidfile --log $logfile --daemon
-    rv=0
+    rv=$?
 else
     log.sh "No resolved remotes, not starting tunnel"
 fi

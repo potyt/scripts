@@ -10,3 +10,5 @@ if [[ -r $file ]]; then
 else
     exit 1
 fi
+
+exit 0

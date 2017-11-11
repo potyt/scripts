@@ -14,3 +14,5 @@ while ! $cached; do
         sleep 10
     fi
 done
+
+exit 0

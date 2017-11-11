@@ -15,3 +15,5 @@ else
     log.sh "!! Can't add firewall rules: no action"
     exit 1
 fi
+
+exit 0

@@ -11,3 +11,5 @@ done
 sleep 10
 
 killall -q openvpn
+
+exit 0

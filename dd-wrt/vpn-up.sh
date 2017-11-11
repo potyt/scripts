@@ -101,3 +101,5 @@ if $default; then
 fi
 
 ip route flush cache
+
+exit 0

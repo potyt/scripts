@@ -46,3 +46,5 @@ while ! $synced; do
 done
 
 rm $runfile
+
+exit 0

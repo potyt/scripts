@@ -10,3 +10,5 @@ for conf in /jffs/etc/openvpn/client-*.conf; do
     sleep 10
     def=0
 done
+
+exit 0

@@ -35,3 +35,5 @@ if [[ ! -r $file ]]; then
 else
     log.sh "IP cache file exists $file"
 fi
+
+exit 0

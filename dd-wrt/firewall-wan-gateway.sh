@@ -14,3 +14,5 @@ else
     log.sh "!! Can't add firewall rules: no WanIface/WanGateway"
     exit 1
 fi
+
+exit 0

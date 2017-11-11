@@ -8,7 +8,7 @@ logfile=/var/log/wanup.log
 
 runfile=/var/tmp/wanup.start
 if [[ -r $runfile ]]; then
-    log.sh "# wanup.sh already running"
+    log.sh "# wanup.sh already running" >> $logfile
     exit 0
 else
     touch $runfile

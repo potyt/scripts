@@ -18,3 +18,5 @@ else
     log.sh "!! Can't add firewall rules: no LanIp/LanIface"
     exit 1
 fi
+
+exit 0

@@ -69,3 +69,5 @@ else
 fi
 
 rm $runfile
+
+exit 0

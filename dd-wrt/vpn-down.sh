@@ -70,3 +70,5 @@ ip route flush cache
 pidfile=/var/tmp/openvpn-$idx.pid
 
 rm -f $pidfile
+
+exit 0

@@ -45,3 +45,5 @@ while read -r line; do
         fi
     fi
 done < $conf
+
+exit 0
