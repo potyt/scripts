@@ -6,6 +6,9 @@ fld=$2
 
 [[ -z $fld ]] && fld=${prg#pass-}
 
-val=`pass $acc | egrep -i "^$fld:" | sed "s/^$fld:\(.*\)/\1/gI" | xargs`
+val=`pass $acc | egrep -i "^$fld:" | sed "s/^$fld:\(.*\)/\1/gI" | head -1 | xargs`
+if [[ -z $val ]]; then
+    val=`pass $acc | egrep -i "$fld:" | sed "s/.*$fld:\(.*\)/\1/gI" | head -1 | xargs`
+fi
 echo -n $val
 [[ -z "$val" ]] && exit 1 || exit 0
