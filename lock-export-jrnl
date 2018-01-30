@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+lockrun -qn ~/var/lock/export-jrnl.lock export-jrnl
