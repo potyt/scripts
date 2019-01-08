@@ -12,6 +12,7 @@ login=0
 email=0
 username=0
 url=0
+hash=0
 if [[ $1 == "--login" ]]; then
 	login=1
 	shift
@@ -23,6 +24,9 @@ elif [[ $1 == "--username" ]]; then
 	shift
 elif [[ $1 == "--url" ]]; then
 	url=1
+	shift
+elif [[ $1 == "--hash" ]]; then
+	hash=1
 	shift
 fi
 
@@ -43,6 +47,8 @@ elif [[ $username -eq 1 ]]; then
     passwordval=$(pass-username $password)
 elif [[ $url -eq 1 ]]; then
     passwordval=$(pass-url $password)
+elif [[ $hash -eq 1 ]]; then
+    passwordval=$(pass-\# $password)
 else
     passwordval=$(pass show $password | head -n 1)
 fi
