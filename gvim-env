@@ -1,0 +1,10 @@
+#! /usr/bin/env bash
+
+prg=`basename $0`
+env=$1
+
+[[ -z $env ]] && env=${prg#gvim-}
+
+. ~/.env.python
+
+zsh -l -c "workon $env; gvim"
