@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+typ=$1
+val=$2
+exc=$3
+
+curl -v -X POST 'https://api.openfigi.com/v1/mapping' --header "Content-Type: text/json" --header "X-OPENFIGI-APIKEY: $(pass-# www/openfigi)" --data "[{\"idType\":\"$1\",\"idValue\":\"$2\",\"exchCode\":\"$3\"}]"
