@@ -15,7 +15,7 @@ for r in ${dirs[@]}; do
             dmis=false
             if [[ -d $d/.git ]]; then
                 gmis=false
-                remt=$( cd $d; [[ $(git ls-remote 2>/dev/null) ]] && echo false || echo true )
+                remt=$( cd $d; [[ $(git ls-remote --quiet) ]] && echo false || echo true )
                 if ! $remt; then
                     pull=$( cd $d; [[ $(git rev-parse HEAD) == $(git rev-parse @{u}) ]] && echo false || echo true )
                 fi
