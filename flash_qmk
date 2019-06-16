@@ -1,0 +1,17 @@
+#! /usr/bin/env bash
+
+set -e
+
+chip=$1  # e.g. atmega32u4
+shift
+board=$1
+shift
+layout=$1
+shift
+
+echo "Sleeping for 5 seconds, put keyboard into bootloader mode..."
+sleep 5
+
+sudo dfu-programmer ${chip} erase
+sudo dfu-programmer ${chip} flash ${board}_${layout}.hex
+sudo dfu-programmer ${chip} reset
