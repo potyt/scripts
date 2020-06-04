@@ -2,4 +2,4 @@
 
 set -e
 
-find /volume1/downloads/nzbget/completed -mindepth 1 -type d -empty -delete
+find /volume1/downloads/nzbget/completed -mindepth 2 -type d -empty -delete
