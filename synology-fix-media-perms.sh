@@ -2,9 +2,6 @@
 
 set -e
 
-find /volume1/downloads/nzbget/completed -type f -exec chmod a+rw {} \;
-find /volume1/downloads/nzbget/completed -mindepth 1 -type d -exec chmod a+rwx {} \;
-
 chown -R sc-headphones.headphones /volume1/musik/incoming
 chmod -R ug+rw /volume1/musik/incoming
 chmod -R o-w /volume1/musik/incoming
