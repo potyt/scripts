@@ -1,4 +1,0 @@
-#! /usr/bin/env sh
-
-profile=aurora
-export http_proxy=$PRIVOXY_URL; sudo -u $SANDBOX_USER -- bash -l -c "firefox-aurora -P $profile \"$@\" &"
