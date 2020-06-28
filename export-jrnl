@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-jrnl=$(cat ~/.config/jrnl | jq .journals.default | tr -d '"')
+jrnl=$(cat ~/.config/jrnl/jrnl.yaml | yq .journals.default | tr -d '"')
 
 jrnl --export markdown -o ${jrnl%.txt}.md
 pandoc  ${jrnl%.txt}.md -s -o ${jrnl%.txt}.pdf
