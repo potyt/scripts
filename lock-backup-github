@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+lockrun -qn ~/var/lock/backup-github.lock backup-github
+
+exit 0
