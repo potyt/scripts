@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-name="-name \"tmp\""
+name="-name tmp"
 geometry="-geometry 120x40"
 
 exec $TERMINAL $name $geometry -e mutt -n "$@"
