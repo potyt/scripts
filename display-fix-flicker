@@ -1,0 +1,4 @@
+#! /usr/bin/env bash
+
+xrandr --output LVDS --off
+display-layout
