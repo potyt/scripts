@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+
+prg=$(basename $0)
+dir=$(dirname $(realpath -s $0))
+user=${prg#mutt-mailto-}
+
+[ "$user" == "user" ] && echo "Must run $prg via symlink" && exit 1
+
+sudo -u $user -- $dir/mutt-mailto-sudo "$@"

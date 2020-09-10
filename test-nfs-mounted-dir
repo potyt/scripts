@@ -1,0 +1,13 @@
+#! /usr/bin/env bash
+
+set -e
+
+prg=`basename $0`
+dir=$1
+
+[[ -z $dir ]] && dir=${prg#test-nfs-mounted-}
+
+cd /mnt/$dir >/dev/null 2>&1
+mount -l | grep nfs | grep "$dir type" >/dev/null 2>&1
+
+exit $?
