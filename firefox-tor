@@ -1,4 +1,4 @@
 #! /usr/bin/env sh
 
-profile=firefox-tor
+profile=tor
 export http_proxy=$PRIVOXY_TOR_URL; sudo -u _pot -- bash -l -c "/usr/bin/firefox -P $profile \"$@\" &"
