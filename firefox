@@ -1,3 +1,4 @@
 #! /usr/bin/env sh
 
+profile=$PROFILE
 sudo -u $SANDBOX_USER -- bash -l -c "/usr/bin/firefox -P $profile \"$@\" &"

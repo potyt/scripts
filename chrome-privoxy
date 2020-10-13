@@ -1,3 +1,0 @@
-#! /usr/bin/env sh
-
-export http_proxy=$PRIVOXY_URL; sudo -u $SANDBOX_USER -- bash -l -c "/usr/bin/google-chrome-stable \"$@\""
