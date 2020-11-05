@@ -1,5 +1,6 @@
 #! /usr/bin/env sh
 
 profile=$PROFILE
-page="about:blank"
-sudo -u $SANDBOX_USER -- bash -l -c "/usr/bin/firefox -P \"$profile\" \"$page\" &"
+window=$WINDOW
+page=$PAGE
+sudo -u $SANDBOX_USER -- bash -l -c "/usr/bin/firefox -P \"$profile\" $window $page &"
