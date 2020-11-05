@@ -1,4 +1,4 @@
 #! /usr/bin/env sh
 
 profile=tor
-sudo -u _pot -- bash -l -c "/usr/bin/firefox -P $profile \"$@\" &"
+sudo -u _pot -- bash -l -c "/usr/bin/firefox -P \"$profile\" \"$@\" &"
