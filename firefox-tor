@@ -1,4 +1,5 @@
 #! /usr/bin/env sh
 
 profile=tor
-sudo -u _pot -- bash -l -c "/usr/bin/firefox -P \"$profile\" \"$@\" &"
+page="about:blank"
+sudo -u _pot -- bash -l -c "/usr/bin/firefox -P \"$profile\" \"$page\" &"
