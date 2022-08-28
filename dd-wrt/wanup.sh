@@ -41,6 +41,10 @@ log.sh "# Captured DNS" >> $logfile
 log.sh "# Marking WAN setup complete" >> $logfile
 touch /var/tmp/wanup
 
+log.sh "# Starting VPN bypass" >> $logfile 
+bypass-start.sh >> $logfile
+log.sh "# Started VPN bypass" >> $logfile 
+
 log.sh "# Starting tunnels" >> $logfile
 vpn-checkall.sh >> $logfile
 log.sh "# Started tunnels" >> $logfile
