@@ -3,12 +3,13 @@
 set -e
 
 PASS_RESOURCE=www/github
+PASS_TOKEN=$PASS_RESOURCE/github-backup
 BASE_DIR=~/nfs-home/github-backup
 USER=$(pass-username $PASS_RESOURCE)
-PASS=$(pass-password $PASS_RESOURCE)
+TOKEN=$(pass-password $PASS_TOKEN)
 DEST_DIR=$BASE_DIR/$USER
 
 mkdir -p $DEST_DIR
 cd $DEST_DIR
 
-github-backup $USER -u $USER -p $PASS --all -PFi --pull-details --gists
+github-backup $USER --token $TOKEN --prefer-ssh --all -PF --pull-details --gists

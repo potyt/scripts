@@ -1,0 +1,9 @@
+#! /usr/bin/env sh
+
+set -e
+
+sudo systemctl restart dnsmasq
+sudo systemctl restart polipo-tor
+sudo systemctl restart polipo
+sudo systemctl restart privoxy-tor
+sudo systemctl restart privoxy

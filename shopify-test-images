@@ -1,0 +1,45 @@
+#! /usr/bin/env sh
+
+file=$1
+copy=$2
+
+PSNR_LIMIT=35
+
+while IFS= read -r url; do
+    if [ "$url" != "Image Src" ]; then
+
+        img="${url##*/}"
+        loc="$SHOPIFY_FILE_DIR/$img"
+        [ -r $loc ]
+        rvl=$?
+
+        wget -q --spider $url
+        rvr=$?
+
+        if [ $rvl -ne 0 ] || [ $rvr -ne 0 ]; then
+            if [ $rvl -ne 0 ]; then
+                echo "Local: $img"
+                if [ $copy != "" ]; then
+                    cp $copy $loc
+                    echo "(Copied $copy)"
+                fi
+            fi
+
+            if [ $rvr -ne 0 ]; then
+                echo "Remote: $img"
+            fi
+        else
+            tmp=$TMPDIR/$img.jpg
+            wget -q $url -O $tmp
+            psnr=$(compare -metric PSNR "$loc" "$tmp" null: 2>&1)
+            psnr=${psnr%.*}
+            rvd=$(([ $psnr == "inf" ] || [ $psnr -gt $PSNR_LIMIT ]) && echo "0" || echo "1")
+
+            if [ $rvd -ne 0 ]; then
+                if [ $rvd -ne 0 ]; then
+                    echo "Diff: $img"
+                fi
+            fi
+        fi
+    fi
+done <<< $(csvcut -c "Image Src" $file)

@@ -1,4 +1,3 @@
 #! /usr/bin/env sh
 
-user_agent="Mozilla/5.0 AppleWebKit (KHTML, like Gecko) Chrome Safari"
-export http_proxy=$PRIVOXY_TOR_URL; sudo -u $SANDBOX_USER -- bash -l -c "/usr/bin/chromium --user-agent=\"$user_agent\" --incognito \"$@\""
+export http_proxy=$PRIVOXY_TOR_URL https_proxy=$PRIVOXY_TOR_URL; sudo -u $SANDBOX_USER -- bash -l -c "/usr/bin/chromium --incognito \"$@\""

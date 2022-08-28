@@ -1,4 +1,6 @@
 #! /usr/bin/env sh
 
-profile=firefox
-export http_proxy=$PRIVOXY_URL; sudo -u $SANDBOX_USER -- bash -l -c "/usr/bin/firefox -P $profile \"$@\" &"
+profile=$PROFILE
+window=$WINDOW
+page=$PAGE
+sudo -u $SANDBOX_USER -- bash -l -c "/usr/bin/firefox -P \"$profile\" $window $page &"
